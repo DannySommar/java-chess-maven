@@ -1,0 +1,10 @@
+# Maven
+target/
+
+# Build outputs
+*.class
+*.jar
+*.war
+
+# System
+.DS_Store
