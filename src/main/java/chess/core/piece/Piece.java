@@ -1,6 +1,8 @@
-package chess.piece;
+package chess.core.piece;
 
-import chess.Colour;
+import chess.core.Colour;
+import chess.core.Position;
+import chess.core.move.Move;
 
 public abstract class Piece
 {
@@ -24,5 +26,7 @@ public abstract class Piece
     {
         return relativeValue;
     }
+
+    public abstract boolean isValidMove(Position position, Move move);
     
 }

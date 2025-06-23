@@ -1,6 +1,6 @@
-package chess.piece;
+package chess.core.piece;
 
-import chess.Colour;
+import chess.core.Colour;
 
 public class Pawn extends Piece
 {

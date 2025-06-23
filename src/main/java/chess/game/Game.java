@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import chess.Colour;
-import chess.Position;
-import chess.move.*;
-import chess.piece.Horse;
-import chess.piece.Piece;
+import chess.core.Colour;
+import chess.core.Position;
+import chess.core.move.*;
+import chess.core.piece.Horse;
+import chess.core.piece.Piece;
 
 public abstract class Game
 {
@@ -17,6 +17,7 @@ public abstract class Game
     protected String blackPlayer;
     protected List<Move> moves;
     protected Position startingPosition;
+    protected Position cachedCurrentPosition;
     
     public Game(String p1, String p2, Position startingPosition)
     {
@@ -41,14 +42,19 @@ public abstract class Game
     }
 
     public Position getCurrentPosition()
-    {
-        // Cheap to get to current position from starting position, 
+    { 
         // dont need to store all the positions each turn
+
+        if (cachedCurrentPosition != null)
+            return cachedCurrentPosition;
+        
+        // may be used for replays
         Position position = startingPosition;
         for(Move move:moves)
         {
             position.doMove(move);
         }
+        cachedCurrentPosition = position;
         return position;
     }
 
@@ -72,12 +78,27 @@ public abstract class Game
         }else{return moves.size() % 2 == 0 ? Colour.BLACK : Colour.WHITE;}
     }
 
-    public void addMove(Move move)
+    public void addMove(Move move) throws Exception
     {
-        moves.add(move);
-    }
+        Position position = getCurrentPosition();
+        if (!position.isValidMove(move))
+        {
+            throw new Exception("invalid move");
+        }
 
-    
+        if (isEnPassant(move))
+        {
+            validateEnPassent(move);
+        } else if (isCastling(move))
+        {
+            validateCastling(move);
+        }
+
+
+
+        moves.add(move);
+        cachedCurrentPosition = position.doMove(move);
+    }
 
 
     public static void main(String[] args)

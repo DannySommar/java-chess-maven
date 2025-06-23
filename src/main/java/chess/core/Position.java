@@ -1,8 +1,8 @@
-package chess;
+package chess.core;
 
-import chess.Colour;
-import chess.piece.*;
-import chess.move.*;
+import chess.core.move.*;
+import chess.core.piece.*;
+import chess.game.*;
 
 public class Position
 {
@@ -25,9 +25,20 @@ public class Position
         }
     }
 
-    public void doMove(Move move)
+    public Piece getPiece(int file, int rank)
+    {
+        return board[file][rank];
+    }
+
+    public Colour getTurn()
+    {
+        return turn;
+    }
+
+    public Position doMove(Move move)
     {
         //later
+        return null;
     }
 
     public void printBoard()
@@ -50,9 +61,23 @@ public class Position
         }
     }
 
-    public Colour getTurn()
+    public boolean isValidMove(Move move)
     {
-        return turn;
+        if (!isInBounds(move))
+            return false;
+
+        Piece piece = getPiece(move.fromFile, move.fromRank);
+        if (piece == null || piece.getColour() != turn)
+            return false;
+
+        return piece.isValidMove(this, move);
     }
 
+    public boolean isInBounds(Move move)
+    {
+        return  move.fromFile >= 0 && move.fromFile < 8
+            &&  move.fromRank >= 0 && move.fromRank < 8
+            &&  move.toFile >= 0 && move.toFile < 8
+            &&  move.toRank >= 0 && move.toRank < 8;
+    }
 }

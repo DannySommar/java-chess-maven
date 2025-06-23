@@ -1,9 +1,9 @@
 package chess.game;
 
 
-import chess.piece.*;
-import chess.Position;
-import chess.Colour;
+import chess.core.Colour;
+import chess.core.Position;
+import chess.core.piece.*;
 
 public class Chess960 extends Game
 {
