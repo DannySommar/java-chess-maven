@@ -25,6 +25,11 @@ public class Position
         }
     }
 
+    public void PlacePiece(Piece piece, int file, int rank)
+    {
+        board[file][rank] = piece;
+    }
+
     public Piece getPiece(int file, int rank)
     {
         return board[file][rank];

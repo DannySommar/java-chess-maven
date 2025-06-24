@@ -100,6 +100,26 @@ public abstract class Game
         cachedCurrentPosition = position.doMove(move);
     }
 
+    public boolean isEnPassant(Move move)
+    {
+        return false;
+    }
+
+    public void validateEnPassent(Move move)
+    {
+
+    }
+
+        public boolean isCastling(Move move)
+    {
+        return false;
+    }
+
+    public void validateCastling(Move move)
+    {
+        
+    }
+
 
     public static void main(String[] args)
     {

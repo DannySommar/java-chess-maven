@@ -10,9 +10,12 @@ public class Move
     public int toFile;
     public int toRank;
 
-    public Move()
+    public Move(int fromFile, int fromRank, int toFile, int toRank)
     {
-        //i'll think about it later
+        this.fromFile = fromFile;
+        this.fromRank = fromRank;
+        this.toFile = toFile;
+        this.toRank = toRank;
     }
 
 
