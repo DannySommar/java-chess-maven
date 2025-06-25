@@ -20,8 +20,30 @@ public class Bishop extends Piece
 
 
     @Override
-    public boolean isValidMove(Position position, Move move) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isValidMove'");
+    public boolean isValidMove(Position position, Move move)
+    {
+        int fileDiff = Math.abs(move.toFile - move.fromFile);
+        int rankDiff = Math.abs(move.toRank - move.fromRank);
+        
+        if (fileDiff != rankDiff)
+            return false; // diagonal
+        
+
+        int fileStep = Integer.signum(move.toFile - move.fromFile);
+        int rankStep = Integer.signum(move.toRank - move.fromRank);
+
+        int currFile = move.fromFile + fileStep;
+        int currRank = move.fromRank + rankStep;
+
+        while (currFile != move.toFile)
+        {
+            if (position.getPiece(currFile, currRank) != null)
+                return false;
+            currFile += fileStep;
+            currRank += rankStep;
+        }
+
+        Piece target = position.getPiece(move.toFile, move.toRank);
+        return target == null || target.getColour() != this.getColour();
     }
 }

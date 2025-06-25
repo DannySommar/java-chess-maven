@@ -54,7 +54,6 @@ public class Rook extends Piece
         }
 
         Piece target = position.getPiece(currFile, currRank);
-
         return target == null || target.getColour() != this.getColour();
     }
 }

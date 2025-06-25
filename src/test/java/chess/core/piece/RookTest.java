@@ -16,7 +16,7 @@ public class RookTest
         Piece[][] empty = new Piece[8][8];
         Position emptyPosition = new Position(empty, Colour.WHITE);
 
-        emptyPosition.PlacePiece(new Rook(Colour.WHITE), 0, 0);
+        emptyPosition.placePiece(new Rook(Colour.WHITE), 0, 0);
 
         assertTrue(emptyPosition.isValidMove(new Move(0, 0, 4, 0)));
         assertTrue(emptyPosition.isValidMove(new Move(0, 0, 0, 7)));
@@ -31,8 +31,8 @@ public class RookTest
         Piece[][] empty = new Piece[8][8];
         Position emptyPosition = new Position(empty, Colour.WHITE);
 
-        emptyPosition.PlacePiece(new Rook(Colour.WHITE), 0, 0);
-        emptyPosition.PlacePiece(new Pawn(Colour.WHITE), 0, 1);
+        emptyPosition.placePiece(new Rook(Colour.WHITE), 0, 0);
+        emptyPosition.placePiece(new Pawn(Colour.WHITE), 0, 1);
 
         assertFalse(emptyPosition.isValidMove(new Move(0, 0, 0, 2)));
         assertFalse(emptyPosition.isValidMove(new Move(0, 0, 0, 1)));
@@ -44,8 +44,8 @@ public class RookTest
         Piece[][] empty = new Piece[8][8];
         Position emptyPosition = new Position(empty, Colour.WHITE);
 
-        emptyPosition.PlacePiece(new Rook(Colour.WHITE), 4, 6);
-        emptyPosition.PlacePiece(new Pawn(Colour.BLACK), 4, 1);
+        emptyPosition.placePiece(new Rook(Colour.WHITE), 4, 6);
+        emptyPosition.placePiece(new Pawn(Colour.BLACK), 4, 1);
 
         assertTrue(emptyPosition.isValidMove(new Move(4, 6, 4, 1)));
     }

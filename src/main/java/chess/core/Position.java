@@ -25,7 +25,7 @@ public class Position
         }
     }
 
-    public void PlacePiece(Piece piece, int file, int rank)
+    public void placePiece(Piece piece, int file, int rank)
     {
         board[file][rank] = piece;
     }
