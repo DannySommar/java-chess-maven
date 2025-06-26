@@ -18,6 +18,37 @@ public class Move
         this.toRank = toRank;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + fromFile;
+        result = prime * result + fromRank;
+        result = prime * result + toFile;
+        result = prime * result + toRank;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Move other = (Move) obj;
+        if (fromFile != other.fromFile)
+            return false;
+        if (fromRank != other.fromRank)
+            return false;
+        if (toFile != other.toFile)
+            return false;
+        if (toRank != other.toRank)
+            return false;
+        return true;
+    }
+
 
     
 }

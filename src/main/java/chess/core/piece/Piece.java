@@ -1,5 +1,7 @@
 package chess.core.piece;
 
+import java.util.List;
+
 import chess.core.Colour;
 import chess.core.Position;
 import chess.core.move.Move;
@@ -27,6 +29,7 @@ public abstract class Piece
         return relativeValue;
     }
 
-    public abstract boolean isValidMove(Position position, Move move);
-    
+    public abstract boolean isValidMove(Position position, Move move); // probably bad
+
+    public abstract List<Move> generateValidMoves(Position position, int currentFile, int currentRank); // generates a list of valid moves for each piece
 }

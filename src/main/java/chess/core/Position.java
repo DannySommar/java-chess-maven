@@ -66,23 +66,25 @@ public class Position
         }
     }
 
-    public boolean isValidMove(Move move)
+    public boolean isMoveLegal(Move move)
     {
         if (!isInBounds(move))
             return false;
-
+        
         Piece piece = getPiece(move.fromFile, move.fromRank);
         if (piece == null || piece.getColour() != turn)
             return false;
 
-        return piece.isValidMove(this, move);
+        return piece.generateValidMoves(this, move.fromFile, move.fromRank).contains(move);
     }
 
     public boolean isInBounds(Move move)
     {
-        return  move.fromFile >= 0 && move.fromFile < 8
-            &&  move.fromRank >= 0 && move.fromRank < 8
-            &&  move.toFile >= 0 && move.toFile < 8
-            &&  move.toRank >= 0 && move.toRank < 8;
+        return isInBounds(move.fromFile, move.fromRank) && isInBounds(move.toFile, move.toRank);
+    }
+
+    public boolean isInBounds(int file, int rank)
+    {
+        return file >= 0 && file < 8 && rank >= 0 && rank < 8;
     }
 }

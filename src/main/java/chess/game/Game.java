@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import chess.core.Colour;
+import chess.core.InvalidMoveException;
 import chess.core.Position;
 import chess.core.move.*;
 import chess.core.piece.Horse;
@@ -78,12 +79,12 @@ public abstract class Game
         }else{return moves.size() % 2 == 0 ? Colour.BLACK : Colour.WHITE;}
     }
 
-    public void addMove(Move move) throws Exception
+    public void addMove(Move move) throws InvalidMoveException
     {
         Position position = getCurrentPosition();
-        if (!position.isValidMove(move))
+        if (!position.isMoveLegal(move))
         {
-            throw new Exception("invalid move");
+            throw new InvalidMoveException("invalid move");
         }
 
         if (isEnPassant(move))

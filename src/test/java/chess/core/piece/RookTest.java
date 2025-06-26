@@ -18,11 +18,11 @@ public class RookTest
 
         emptyPosition.placePiece(new Rook(Colour.WHITE), 0, 0);
 
-        assertTrue(emptyPosition.isValidMove(new Move(0, 0, 4, 0)));
-        assertTrue(emptyPosition.isValidMove(new Move(0, 0, 0, 7)));
+        assertTrue(emptyPosition.isMoveLegal(new Move(0, 0, 4, 0)));
+        assertTrue(emptyPosition.isMoveLegal(new Move(0, 0, 0, 7)));
 
-        assertFalse(emptyPosition.isValidMove(new Move(0, 0, 0, 0)));
-        assertFalse(emptyPosition.isValidMove(new Move(0, 0, 1, 1)));
+        assertFalse(emptyPosition.isMoveLegal(new Move(0, 0, 0, 0)));
+        assertFalse(emptyPosition.isMoveLegal(new Move(0, 0, 1, 1)));
     }  
     
     @Test
@@ -34,8 +34,8 @@ public class RookTest
         emptyPosition.placePiece(new Rook(Colour.WHITE), 0, 0);
         emptyPosition.placePiece(new Pawn(Colour.WHITE), 0, 1);
 
-        assertFalse(emptyPosition.isValidMove(new Move(0, 0, 0, 2)));
-        assertFalse(emptyPosition.isValidMove(new Move(0, 0, 0, 1)));
+        assertFalse(emptyPosition.isMoveLegal(new Move(0, 0, 0, 2)));
+        assertFalse(emptyPosition.isMoveLegal(new Move(0, 0, 0, 1)));
     }
 
     @Test 
@@ -47,7 +47,7 @@ public class RookTest
         emptyPosition.placePiece(new Rook(Colour.WHITE), 4, 6);
         emptyPosition.placePiece(new Pawn(Colour.BLACK), 4, 1);
 
-        assertTrue(emptyPosition.isValidMove(new Move(4, 6, 4, 1)));
+        assertTrue(emptyPosition.isMoveLegal(new Move(4, 6, 4, 1)));
     }
 
 }
