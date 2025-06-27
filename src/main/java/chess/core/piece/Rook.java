@@ -22,7 +22,7 @@ public class Rook extends Piece
     }
 
 
-    @Override
+
     public boolean isValidMove(Position position, Move move)
     {
         if (!(move.fromFile == move.toFile || move.fromRank == move.toRank))

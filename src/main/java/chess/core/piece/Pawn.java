@@ -21,12 +21,6 @@ public class Pawn extends Piece
     }
 
 
-    @Override
-    public boolean isValidMove(Position position, Move move) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isValidMove'");
-    }
-
 
     @Override
     public List<Move> generateValidMoves(Position position, int currentFile, int currentRank) {

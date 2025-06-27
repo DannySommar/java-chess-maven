@@ -22,7 +22,7 @@ public class Bishop extends Piece
     }
 
 
-    @Override
+
     public boolean isValidMove(Position position, Move move)
     {
         int fileDiff = Math.abs(move.toFile - move.fromFile);

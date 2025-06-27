@@ -29,7 +29,7 @@ public abstract class Piece
         return relativeValue;
     }
 
-    public abstract boolean isValidMove(Position position, Move move); // probably bad
+    //public abstract boolean isValidMove(Position position, Move move); // probably bad
 
     public abstract List<Move> generateValidMoves(Position position, int currentFile, int currentRank); // generates a list of valid moves for each piece
 }
