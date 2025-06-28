@@ -32,4 +32,6 @@ public abstract class Piece
     //public abstract boolean isValidMove(Position position, Move move); // probably bad
 
     public abstract List<Move> generateValidMoves(Position position, int currentFile, int currentRank); // generates a list of valid moves for each piece
+
+   // public abstract List<Move> generateAttackingdMoves(Position position, int currentFile, int currentRank); // generates a list of squares 
 }

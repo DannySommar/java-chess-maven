@@ -1,5 +1,6 @@
 package chess.core.piece;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import chess.core.Colour;
@@ -22,8 +23,26 @@ public class King extends Piece
 
 
     @Override
-    public List<Move> generateValidMoves(Position position, int currentFile, int currentRank) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateValidMoves'");
+    public List<Move> generateValidMoves(Position position, int file, int rank)
+    {
+        List<Move> validMoves = new ArrayList<>();
+        
+        int[][] directions = {{1,0}, {1,1}, {0,1}, {-1,1}, {-1,0}, {-1,-1}, {0,-1}, {1,-1}};
+        
+        for (int[] dir : directions)
+        {
+            if (position.isInBounds(file + dir[0], rank + dir[1])) {
+
+                Piece target = position.getPiece(file + dir[0], rank + dir[1]);
+
+
+                if (target == null || target.getColour() != this.getColour())
+                {
+                    validMoves.add(new Move(file, rank, file + dir[0], rank + dir[1]));
+                }
+            }
+        }
+        
+        return validMoves;
     }
 }

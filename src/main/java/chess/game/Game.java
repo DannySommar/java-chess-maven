@@ -19,6 +19,9 @@ public abstract class Game
     protected List<Move> moves;
     protected Position startingPosition;
     protected Position cachedCurrentPosition;
+
+    private int moveCounter; // for 50 move rule
+
     
     public Game(String p1, String p2, Position startingPosition)
     {
@@ -72,11 +75,8 @@ public abstract class Game
 
 
     public Colour getTurn()
-    { 
-        // Calculate the current player's move depending on how many moves where made and who moved first
-        if(startingPosition.getTurn() == Colour.WHITE){
-            return moves.size() % 2 == 0 ? Colour.WHITE : Colour.BLACK;
-        }else{return moves.size() % 2 == 0 ? Colour.BLACK : Colour.WHITE;}
+    {
+        return cachedCurrentPosition.getTurn();
     }
 
     public void addMove(Move move) throws InvalidMoveException
@@ -87,15 +87,10 @@ public abstract class Game
             throw new InvalidMoveException("invalid move");
         }
 
-        if (isEnPassant(move))
+        if (moveCounter >= 100)
         {
-            validateEnPassent(move);
-        } else if (isCastling(move))
-        {
-            validateCastling(move);
+            ;
         }
-
-
 
         moves.add(move);
         cachedCurrentPosition = position.doMove(move);
