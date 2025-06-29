@@ -50,5 +50,12 @@ public class Move
     }
 
 
+    public boolean matches(Move other)
+    {
+        return this.fromFile == other.fromFile &&
+            this.fromRank == other.fromRank &&
+            this.toFile == other.toFile &&
+            this.toRank == other.toRank;
+    }
     
 }

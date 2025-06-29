@@ -10,6 +10,7 @@ import chess.core.InvalidMoveException;
 import chess.core.Position;
 import chess.core.move.*;
 import chess.core.piece.Horse;
+import chess.core.piece.Pawn;
 import chess.core.piece.Piece;
 
 public abstract class Game
@@ -82,17 +83,25 @@ public abstract class Game
     public void addMove(Move move) throws InvalidMoveException
     {
         Position position = getCurrentPosition();
-        if (!position.isMoveLegal(move))
+
+        Move newMove = position.returnLegalMoveOrNull(move);
+
+        if (newMove == null)
         {
             throw new InvalidMoveException("invalid move");
         }
 
+        if (position.getPiece(move.fromFile, move.fromRank) instanceof Pawn)
+            moveCounter = 0;
+        else
+            moveCounter++;
+
         if (moveCounter >= 100)
         {
-            ;
+            ;//declare draw (i'll do this aafter finishing game logic)
         }
 
-        moves.add(move);
+        moves.add(newMove);
         cachedCurrentPosition = position.doMove(move);
     }
 

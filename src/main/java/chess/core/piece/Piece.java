@@ -33,5 +33,6 @@ public abstract class Piece
 
     public abstract List<Move> generateValidMoves(Position position, int currentFile, int currentRank); // generates a list of valid moves for each piece
 
-   // public abstract List<Move> generateAttackingdMoves(Position position, int currentFile, int currentRank); // generates a list of squares 
+    public abstract boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank);
+
 }

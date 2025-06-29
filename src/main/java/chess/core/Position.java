@@ -115,17 +115,33 @@ public class Position
         }
     }
 
-    public boolean isMoveLegal(Move move)
+    public Move returnLegalMoveOrNull(Move move)
     {
         if (!isInBounds(move))
-            return false;
+            return null;
         
         Piece piece = getPiece(move.fromFile, move.fromRank);
         if (piece == null || piece.getColour() != turn)
-            return false;
+            return null;
 
         List<Move> validMoves = piece.generateValidMoves(this, move.fromFile, move.fromRank);
-        return validMoves.contains(move);
+        
+        for (Move validMove : validMoves)
+        {
+            if (validMove.matches(move))
+                return validMove;
+        }
+
+        Position newPosition = this.doMove(move);
+
+
+        Square kingSquare = getKingSquare();
+
+        if (newPosition.isSquareAttacked(kingSquare.file, kingSquare.rank)) {
+            return null;
+    }
+
+        return null;
     }
 
     public boolean isInBounds(Move move)
@@ -148,7 +164,8 @@ public class Position
 
                 if (piece != null && piece.getColour() != turn)
                 {
-                    ; // finish the attack logic later
+                    if (piece.isAttackingSquare(this, f, r, file, rank))
+                        return true;
                 }
 
             }

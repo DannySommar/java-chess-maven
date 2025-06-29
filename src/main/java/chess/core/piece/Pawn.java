@@ -61,4 +61,11 @@ public class Pawn extends Piece
         }
         return moves;
     }
+
+
+    @Override
+    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isAttackingSquare'");
+    }
 }

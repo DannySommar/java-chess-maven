@@ -96,4 +96,11 @@ public class Rook extends Piece
         
         return validMoves;
     }
+
+
+    @Override
+    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isAttackingSquare'");
+    }
 }
