@@ -1,5 +1,6 @@
 package chess.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import chess.core.move.*;
@@ -49,25 +50,91 @@ public class Position
     public Position doMove(Move move)
     {
         Piece[][] newBoard = deepCopyBoard();
-
         Piece piece = newBoard[move.fromFile][move.fromRank];
-        newBoard[move.fromFile][move.fromRank] = null;
-        newBoard[move.toFile][move.toRank] = piece;
 
+        Colour newTurn = turn.getOpposite();
         int newEnPassantFile = -1;
+        boolean newCanWhiteCastle = canWhiteCastle;
+        boolean newCanBlackCastle = canBlackCastle;
 
-        if (move instanceof EnPassantMove)
+        //I know some stuff repeats, but I prefer it that way
+        if (move instanceof NormalMove)
         {
-            enPassantFile = -1;
-            //remove the pawn 
+            newBoard[move.toFile][move.toRank] = piece;
+            newBoard[move.fromFile][move.fromRank] = null;
+        }
+        else if (move instanceof CastlingMove)
+        {
+            if (((CastlingMove)move).isKingSide())
+            {
+                // move rook
+                int rookFromFile = findRookFile(move.fromRank, move.fromFile + 1, 7);
+                Piece rook = newBoard[rookFromFile][move.fromRank];
+                newBoard[rookFromFile][move.fromRank] = null;
+                newBoard[5][move.fromRank] = rook;
+
+                // move king
+                newBoard[move.fromFile][move.fromRank] = null;
+                newBoard[6][move.fromRank] = piece;
+            }
+            else{
+                // move rook
+                int rookFromFile = findRookFile(move.fromRank, 0, move.fromFile - 1);
+                Piece rook = newBoard[rookFromFile][move.fromRank];
+                newBoard[rookFromFile][move.fromRank] = null;
+                newBoard[3][move.fromRank] = rook;
+
+                // move king
+                newBoard[move.fromFile][move.fromRank] = null;
+                newBoard[2][move.fromRank] = piece;
+            }
+        }
+        else if (move instanceof PromotionMove)
+        {
+            piece = ((PromotionMove)move).getPromotedTo();
+            newBoard[move.toFile][move.toRank] = piece;
+            newBoard[move.fromFile][move.fromRank] = null;
+        }
+        else if (move instanceof IlVaticanoMove)
+        {
+            Piece bishop1 = newBoard[move.fromFile][move.fromRank];
+            Piece bishop2 = newBoard[move.toFile][move.toRank];
+
+            boolean isHorizontal = (move.fromRank == move.toRank);
+            boolean isVertical = (move.fromFile == move.toFile);
+            if (!isHorizontal && !isVertical)
+                throw new IllegalStateException("Il Vaticano: elephants must be aligned");
+
+            int distance = isHorizontal ? Math.abs(move.toFile - move.fromFile) : Math.abs(move.toRank - move.fromRank);
+            
+            int fileStep = Integer.signum(move.toFile - move.fromFile);
+            int rankStep = Integer.signum(move.toRank - move.fromRank);
+            int currFile = move.fromFile + fileStep;
+            int currRank = move.fromRank + rankStep;
+
+            while (currFile != move.toFile || currRank != move.toRank)
+            {
+                newBoard[currFile][currRank] = null;
+                currFile += fileStep;
+                currRank += rankStep;
+            }
+
+            // MUST BE CLOCKWISE!!!!!!!!!!!!!!!!!!!
+            newBoard[move.toFile][move.toRank] = bishop1;
+            newBoard[move.fromFile][move.fromRank] = bishop2;
         }
 
-        // also check if king can castle;
-        boolean newCanWhiteCastle = true;
-        boolean newCanBlackCastle = true;
-
-
-        Colour newTurn = turn == Colour.WHITE ? Colour.BLACK : Colour.WHITE;
+        if (piece instanceof King)
+        {
+            if (piece.getColour() == Colour.WHITE)
+                newCanWhiteCastle = false;
+            else 
+                newCanBlackCastle = false;
+        }
+        else if (piece instanceof Pawn && Math.abs(move.toRank - move.fromRank) == 2)
+        {
+            newEnPassantFile = move.fromFile;
+        }
 
         return new Position(
             newBoard,
@@ -76,6 +143,18 @@ public class Position
             newCanBlackCastle,
             newEnPassantFile
         );
+    }
+
+    private int findRookFile(int rank, int startFile, int endFile)
+    {
+        int step = startFile <= endFile ? 1 : -1;
+        for (int f = startFile; f != endFile + step; f += step)
+        {
+            Piece p = board[f][rank];
+            if (p instanceof Rook && p.getColour() == turn)
+                return f;
+        }
+        throw new IllegalStateException("no rook");
     }
 
     public Piece[][] deepCopyBoard()

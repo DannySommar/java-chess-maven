@@ -11,4 +11,9 @@ public class PromotionMove extends Move
         super(fromFile, fromRank, toFile, toRank);
         this.promotedTo = promotedTo;
     }
+
+    public Piece getPromotedTo()
+    {
+        return promotedTo;
+    }
 }

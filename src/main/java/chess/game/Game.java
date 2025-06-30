@@ -102,7 +102,7 @@ public abstract class Game
         }
 
         moves.add(newMove);
-        cachedCurrentPosition = position.doMove(move);
+        cachedCurrentPosition = position.doMove(newMove);
     }
 
     public boolean isEnPassant(Move move)
