@@ -129,17 +129,18 @@ public class Position
         for (Move validMove : validMoves)
         {
             if (validMove.matches(move))
+            {
+                Position newPosition = this.doMove(move);
+
+                Square kingSquare = newPosition.getKingSquare(turn); // get square of THIS king
+
+                if (newPosition.isSquareAttacked(kingSquare.file, kingSquare.rank))
+                    return null;
+
                 return validMove;
+            }
         }
 
-        Position newPosition = this.doMove(move);
-
-
-        Square kingSquare = getKingSquare();
-
-        if (newPosition.isSquareAttacked(kingSquare.file, kingSquare.rank)) {
-            return null;
-    }
 
         return null;
     }
@@ -154,6 +155,21 @@ public class Position
         return file >= 0 && file < 8 && rank >= 0 && rank < 8;
     }
 
+    public Square getKingSquare(Colour colour)
+    {
+        for (int f = 0; f < 8; f++)
+        {
+            for (int r = 0; r < 8; r++)
+            {
+                Piece p = getPiece(f, r);
+                if (p != null && p instanceof King && p.getColour() == colour) {
+                    return new Square(f, r);
+                }
+            }
+        }
+        throw new IllegalStateException("King not found"); 
+    }
+
     public boolean isSquareAttacked(int file, int rank)
     {
         for (int f = 0; f < 8; f++)
@@ -162,7 +178,7 @@ public class Position
             {
                 Piece piece = getPiece(f, r);
 
-                if (piece != null && piece.getColour() != turn)
+                if (piece != null && piece.getColour() == turn) // for next posotion, it's colour is correct to check if the opposite king is attacked
                 {
                     if (piece.isAttackingSquare(this, f, r, file, rank))
                         return true;
@@ -177,5 +193,23 @@ public class Position
     public int getEnPassantFile()
     {
         return enPassantFile;
+    }
+
+    // helper for certain piece isAttackingSquare()
+    public boolean isClearPath(int fromFile, int fromRank, int toFile, int toRank)
+    {
+        int fileStep = Integer.signum(toFile - fromFile);
+        int rankStep = Integer.signum(toRank - fromRank);
+        int f = fromFile + fileStep;
+        int r = fromRank + rankStep;
+
+        while (f != toFile || r != toRank)
+        {
+            if (getPiece(f, r) != null)
+                return false;
+            f += fileStep;
+            r += rankStep;
+        }
+        return true;
     }
 }
