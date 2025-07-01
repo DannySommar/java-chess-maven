@@ -96,6 +96,12 @@ public class Position
             newBoard[move.toFile][move.toRank] = piece;
             newBoard[move.fromFile][move.fromRank] = null;
         }
+        else if (move instanceof EnPassantMove)
+        {
+            newBoard[move.toFile][move.toRank] = piece;
+            newBoard[move.fromFile][move.fromRank] = null;
+            newBoard[enPassantFile][move.fromRank] = null;
+        }
         else if (move instanceof IlVaticanoMove)
         {
             Piece bishop1 = newBoard[move.fromFile][move.fromRank];

@@ -27,7 +27,7 @@ public class Pawn extends Piece
     public List<Move> generateValidMoves(Position position, int file, int rank) {
         List<Move> moves = new ArrayList<>();
 
-        int forward = (getColour() == Colour.WHITE) ? 1 : -1; // normal
+        int forward = (getColour() == Colour.WHITE) ? 1 : -1; // normal (includes promotion)
         
         if (position.isInBounds(file, rank + forward) && position.getPiece(file, rank + forward) == null) // double starter
         {
