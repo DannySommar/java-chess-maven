@@ -273,6 +273,40 @@ public class Position
         return enPassantFile;
     }
 
+    // will change later
+    public boolean canWhiteCastleKingSide()
+    {
+        return canWhiteCastle;
+    }
+
+    public boolean canWhiteCastleQueenSide()
+    {
+        return canWhiteCastle;
+    }
+        public boolean canBlackCastleKingSide()
+    {
+        return canBlackCastle;
+    }
+
+    public boolean canBlackCastleQueenSide()
+    {
+        return canBlackCastle;
+    }
+
+    public boolean canCastleQueenSide(Colour c)
+    {
+        if (c == Colour.WHITE)
+            return canWhiteCastleQueenSide();
+            return canBlackCastleQueenSide();
+    }
+
+    public boolean canCastleKingSide(Colour c)
+    {
+        if (c == Colour.WHITE)
+            return canWhiteCastleKingSide();
+            return canBlackCastleKingSide();
+    }
+
     // helper for certain piece isAttackingSquare()
     public boolean isClearPath(int fromFile, int fromRank, int toFile, int toRank)
     {
