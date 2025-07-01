@@ -99,8 +99,12 @@ public class Rook extends Piece
 
 
     @Override
-    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isAttackingSquare'");
+    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank)
+    {
+        int fileDiff = Math.abs(targetFile - currentFile);
+        int rankDiff = Math.abs(targetRank - currentRank);
+        
+        return (fileDiff == 0 || rankDiff == 0) && 
+                pos.isClearPath(currentFile, currentRank, targetFile, targetRank);
     }
 }

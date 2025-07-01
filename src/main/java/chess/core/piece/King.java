@@ -48,8 +48,11 @@ public class King extends Piece
 
 
     @Override
-    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isAttackingSquare'");
+    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank)
+    {
+        int fileDiff = Math.abs(targetFile - currentFile);
+        int rankDiff = Math.abs(targetRank - currentRank);
+
+        return (fileDiff <= 1) && (rankDiff <= 1);
     }
 }

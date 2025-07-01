@@ -64,8 +64,15 @@ public class Pawn extends Piece
 
 
     @Override
-    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isAttackingSquare'");
+    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank)
+    {
+        int forward = (getColour() == Colour.WHITE) ? 1 : -1;
+
+        if (currentRank + forward == targetRank)
+        {
+            return Math.abs(targetFile - currentFile) == 1;
+        }
+
+        return false;
     }
 }

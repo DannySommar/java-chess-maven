@@ -1,8 +1,6 @@
 package chess.game;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import chess.core.Colour;
@@ -133,7 +131,6 @@ public abstract class Game
         System.out.println("White Player: " + game.getWhitePlayer());
         System.out.println("Black Player: " + game.getBlackPlayer());
 
-        Position startingPosition = game.getCurrentPosition();
         System.out.println("Starting Position:");
         System.out.println(game.getCurrentPosition());
         game.getCurrentPosition().printBoard();

@@ -65,7 +65,7 @@ public class Queen extends Piece
     {
         int fileDiff = Math.abs(targetFile - currentFile);
         int rankDiff = Math.abs(targetRank - currentRank);
-        // Same row/column/diagonal?
+        
         return (fileDiff == 0 || rankDiff == 0 || fileDiff == rankDiff) && 
                 pos.isClearPath(currentFile, currentRank, targetFile, targetRank);
     }

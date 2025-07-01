@@ -89,8 +89,12 @@ public class Bishop extends Piece
 
 
     @Override
-    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isAttackingSquare'");
+    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank)
+    {
+        int fileDiff = Math.abs(targetFile - currentFile);
+        int rankDiff = Math.abs(targetRank - currentRank);
+        
+        return fileDiff == rankDiff && 
+                pos.isClearPath(currentFile, currentRank, targetFile, targetRank);
     }
 }

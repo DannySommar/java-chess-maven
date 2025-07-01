@@ -49,8 +49,15 @@ public class Horse extends Piece
 
 
     @Override
-    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isAttackingSquare'");
+    public boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank)
+    {
+        int[][] directions = {{1,2}, {2,1}, {-1,2}, {2,-1}, {1,-2}, {-2,1}, {-1,-2}, {-2,-1}};
+        
+        for (int[] dir : directions)
+        {
+            if (currentFile + dir[0] == targetFile && currentRank + dir[0] == targetRank)
+                return true;
+        }
+        return false;
     }
 }

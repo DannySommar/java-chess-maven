@@ -21,6 +21,7 @@ public class Position
 
     public Position(Piece[][] board, Colour turn, boolean canWhiteCastle, boolean canBlackCastle, int enPassantFile)
     {
+        this.board = board;
         this.turn = turn;
         this.canBlackCastle = canBlackCastle;
         this.canWhiteCastle = canWhiteCastle;
@@ -165,9 +166,7 @@ public class Position
         {
             for (int col = 0; col < board[row].length; col++)
             {
-                Piece piece = board[row][col];
-
-                //newBoard[row][col] = new Piece();
+                newBoard[row][col] = board[row][col];
             }
         }
 
@@ -249,7 +248,7 @@ public class Position
         throw new IllegalStateException("King not found"); 
     }
 
-    public boolean isSquareAttacked(int file, int rank)
+    public boolean isSquareAttacked(int attackedFile, int attackedRank)
     {
         for (int f = 0; f < 8; f++)
         {
@@ -259,7 +258,7 @@ public class Position
 
                 if (piece != null && piece.getColour() == turn) // for next posotion, it's colour is correct to check if the opposite king is attacked
                 {
-                    if (piece.isAttackingSquare(this, f, r, file, rank))
+                    if (piece.isAttackingSquare(this, f, r, attackedFile, attackedRank))
                         return true;
                 }
 
