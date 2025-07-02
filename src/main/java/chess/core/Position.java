@@ -3,9 +3,9 @@ package chess.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import chess.core.game.*;
 import chess.core.move.*;
 import chess.core.piece.*;
-import chess.game.*;
 
 public class Position
 {

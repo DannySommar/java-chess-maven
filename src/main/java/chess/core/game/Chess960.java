@@ -1,4 +1,4 @@
-package chess.game;
+package chess.core.game;
 
 
 import chess.core.Colour;
