@@ -55,7 +55,7 @@ public class Horse extends Piece
         
         for (int[] dir : directions)
         {
-            if (currentFile + dir[0] == targetFile && currentRank + dir[0] == targetRank)
+            if (currentFile + dir[0] == targetFile && currentRank + dir[1] == targetRank)
                 return true;
         }
         return false;
