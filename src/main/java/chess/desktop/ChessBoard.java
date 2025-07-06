@@ -41,7 +41,7 @@ public class ChessBoard extends GridPane {
                 Color squareColor = (file + rank) % 2 == 0 ? Color.TRANSPARENT : Color.GRAY;
                 Rectangle square = new Rectangle(SQUARE_SIZE, SQUARE_SIZE, squareColor);
 
-                squarePane.getChildren().add(square);
+                squarePane.getChildren().add(square); // index 0, since squares always added at the start.
                 add(squarePane, file, rank);
 
                 setSquareHandler(square, file, 7-rank); // to make sure square is correct square
@@ -61,7 +61,7 @@ public class ChessBoard extends GridPane {
         Position position = game.getCurrentPosition();
         Piece clickedPiece = position.getPiece(rank, file);
 
-        //highlightSelection(file, rank);
+        highlightSelection(file, 7-rank);
 
         if (clickedPiece != null)
             System.out.println("clicked on piece " + clickedPiece.toString());
@@ -76,19 +76,19 @@ public class ChessBoard extends GridPane {
             {
                 StackPane squarePane = squarePanes[rank][file];
                 
-                // remove existing
+                // remove existing at index 1
                 if (squarePane.getChildren().size() > 1)
                 {
                     squarePane.getChildren().remove(1);
                     System.out.println("removed child piece");;
                 }
                 
-                // add new piece
+                // add new piece at squarePane level 1
                 Piece piece = game.getCurrentPosition().getPiece(7-file, rank);
                 if (piece != null)
                 {
                     PieceRenderer pieceView = new PieceRenderer(piece);
-                    squarePane.getChildren().add(pieceView);
+                    squarePane.getChildren().add(1, pieceView);
                     printStackPaneChildren(squarePane, file, rank);
                     System.out.println("added piece " + piece.toString() + " to " + rank + ", " + file);
                 }
@@ -96,7 +96,34 @@ public class ChessBoard extends GridPane {
         }
     }
 
-    //private void highlightSelection(int file, int rank);
+    private void highlightSelection(int file, int rank)
+    {
+        clearSelections();
+        
+        StackPane pane = squarePanes[file][rank];
+        Rectangle highlight = new Rectangle(SQUARE_SIZE, SQUARE_SIZE, Color.YELLOW);
+        highlight.setOpacity(0.5);
+        pane.getChildren().add(highlight);
+    }
+
+    private void clearSelections()
+    {
+        for (int f = 0; f < 8; f++)
+        {
+            for (int r = 0; r < 8; r++)
+            {
+                StackPane pane = squarePanes[f][r];
+                if (pane.getChildren().size() > 1)
+                {
+                    // need someway to change it when there is no piece.
+                    pane.getChildren().remove(pane.getChildren().size()-1);
+                }
+            }
+        }
+        selectedFile = null;
+        selectedRank = null;
+    }
+
 
     //[[maybe_unused]] Generated stuff to print out info about StackPanes to help debuging
     private void printStackPaneChildren(StackPane pane, int file, int rank) {

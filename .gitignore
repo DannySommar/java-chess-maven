@@ -8,3 +8,11 @@ target/
 
 # System
 .DS_Store
+
+# JavaFX
+*.tmp
+*.log
+
+# VS Code
+.vscode/
+*.code-workspace
