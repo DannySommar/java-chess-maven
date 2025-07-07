@@ -13,9 +13,9 @@ public class ChessSquare extends StackPane
     
     private final Node[] layers = new Node[3];
     
-    public ChessSquare(Color colour)
+    public ChessSquare(Color colour, int size)
     {
-        layers[LAYER_BACKGROUND] = new Rectangle(80, 80, colour);
+        layers[LAYER_BACKGROUND] = new Rectangle(size, size, colour);
         getChildren().add(layers[LAYER_BACKGROUND]);
     }
     
@@ -31,6 +31,12 @@ public class ChessSquare extends StackPane
     
     private void setLayer(int index, Node node)
     {
-        // umm uhhh
+        getChildren().remove(layers[index]);
+        
+        if (node != null)
+        {
+            layers[index] = node;
+            getChildren().add(node);
+        }
     }
 }
