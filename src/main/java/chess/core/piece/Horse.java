@@ -6,6 +6,7 @@ import java.util.List;
 import chess.core.Colour;
 import chess.core.Position;
 import chess.core.move.Move;
+import chess.core.move.NormalMove;
 
 public class Horse extends Piece
 {
@@ -39,7 +40,7 @@ public class Horse extends Piece
 
                 if (target == null || target.getColour() != this.getColour())
                 {
-                    validMoves.add(new Move(file, rank, file + dir[0], rank + dir[1]));
+                    validMoves.add(new NormalMove(file, rank, file + dir[0], rank + dir[1]));
                 }
             }
         }

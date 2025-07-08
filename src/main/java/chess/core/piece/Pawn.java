@@ -37,13 +37,13 @@ public class Pawn extends Piece
         if (position.isInBounds(file + forward, rank) && position.getPiece(file + forward, rank) == null) // double starter
         {
             System.out.println("added forward");
-            moves.add(new Move(file, rank, file + forward, rank));
+            moves.add(new NormalMove(file, rank, file + forward, rank));
 
             if ((file == 1 && getColour() == Colour.WHITE) || (file == 6 && getColour() == Colour.BLACK))
             {
                 if (position.getPiece(file + 2 * forward, rank) == null)
                 {
-                    moves.add(new Move(file, rank, file + 2 * forward, rank));
+                    moves.add(new NormalMove(file, rank, file + 2 * forward, rank));
                 }
             }
         }
@@ -56,7 +56,7 @@ public class Pawn extends Piece
 
                 if (target != null && target.getColour() != getColour())
                 {
-                    moves.add(new Move(file, rank, f, rank + forward));
+                    moves.add(new NormalMove(file, rank, f, rank + forward));
                 }
                 
                 if ((rank + 3*forward == 0 || rank + 3*forward == 7) && f == position.getEnPassantFile())

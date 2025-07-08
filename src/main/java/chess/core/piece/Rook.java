@@ -6,6 +6,7 @@ import java.util.List;
 import chess.core.Colour;
 import chess.core.Position;
 import chess.core.move.Move;
+import chess.core.move.NormalMove;
 
 public class Rook extends Piece
 {
@@ -78,13 +79,13 @@ public class Rook extends Piece
                 
                 if (target == null)
                 {
-                    validMoves.add(new Move(file, rank, currFile, currRank));
+                    validMoves.add(new NormalMove(file, rank, currFile, currRank));
                 }
                 else // furthest move blocked by a piece, checks if can take
                 {
                     if (target.getColour() != this.getColour())
                     {
-                        validMoves.add(new Move(file, rank, currFile, currRank));
+                        validMoves.add(new NormalMove(file, rank, currFile, currRank));
                     }
                     break;
                 }

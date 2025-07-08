@@ -7,6 +7,7 @@ import chess.core.Colour;
 import chess.core.Position;
 import chess.core.move.CastlingMove;
 import chess.core.move.Move;
+import chess.core.move.NormalMove;
 
 public class King extends Piece
 {
@@ -39,7 +40,7 @@ public class King extends Piece
 
                 if (target == null || target.getColour() != this.getColour())
                 {
-                    validMoves.add(new Move(file, rank, file + dir[0], rank + dir[1]));
+                    validMoves.add(new NormalMove(file, rank, file + dir[0], rank + dir[1]));
                 }
             }
         }

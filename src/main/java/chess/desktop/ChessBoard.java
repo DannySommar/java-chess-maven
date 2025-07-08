@@ -6,6 +6,7 @@ import chess.core.*;
 import chess.core.game.Game;
 import chess.core.move.Move;
 import chess.core.piece.Piece;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -69,13 +70,13 @@ public class ChessBoard extends GridPane {
 
         if (selectedFile != null)
             pastPiece = position.getPiece(selectedRank, selectedFile);
-        ///// Very important to do the possible moves correct rn
-        
+
+        // if no piece currently slected
         if (pastPiece == null)
         {
             highlightSelection(file, 7-rank);
 
-            if (clickedPiece != null)
+            if (clickedPiece != null && clickedPiece.getColour() == position.getTurn())
             {
                 List<Move> validMoves = clickedPiece.generateValidMoves(position, rank, file);
                 for (Move move : validMoves)
@@ -84,15 +85,36 @@ public class ChessBoard extends GridPane {
                     highlightSelection(move.toRank, 7-move.toFile);
                 }
             }
+
+
+            selectedRank = rank;
+            selectedFile = file;
         }
-        else
+        else // some piece already selected, now do a move and check if it's valid
         {
             System.out.println("Past piece: " + pastPiece.toString());
+
+            Move attemptedMove = new Move(selectedRank, selectedFile, rank, file);
+            System.out.println("Tried making move: " + attemptedMove.toString());
+
+            try
+            {
+                game.addMove(attemptedMove);
+
+                updatePieces(); 
+
+                System.out.println("move valid,new board should be:");
+                Position newPosition = game.getCurrentPosition();
+                newPosition.printBoard();
+            } catch (InvalidMoveException e) {
+                System.out.println("invalid move");
+            }
+
+            selectedFile = null;
+            selectedRank = null;
         }
         
 
-        selectedRank = rank;
-        selectedFile = file;
     }
 
     // used for each move. doesn't reset the squares, but replACES the ONE PIECEs
