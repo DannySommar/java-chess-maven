@@ -57,5 +57,10 @@ public class Move
             this.toFile == other.toFile &&
             this.toRank == other.toRank;
     }
+
+    public String toString()
+    {
+        return "from " + (char)('a' + fromRank) + (fromFile+1) + " to " + (char)('a' + toRank) + (toFile+1);
+    }
     
 }

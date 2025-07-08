@@ -28,16 +28,22 @@ public class Pawn extends Piece
         List<Move> moves = new ArrayList<>();
 
         int forward = (getColour() == Colour.WHITE) ? 1 : -1; // normal (includes promotion)
-        
-        if (position.isInBounds(file, rank + forward) && position.getPiece(file, rank + forward) == null) // double starter
-        {
-            moves.add(new Move(file, rank, file, rank + forward));
 
-            if ((rank == 1 && getColour() == Colour.WHITE) || (rank == 6 && getColour() == Colour.BLACK))
+        // I messed up rank and file :( 
+        System.out.println("forward: " + forward);
+        System.out.println("file: " + rank + " rank: " + file);
+        System.out.println("file: " + rank + " next rank: " + (file+forward));
+        
+        if (position.isInBounds(file + forward, rank) && position.getPiece(file + forward, rank) == null) // double starter
+        {
+            System.out.println("added forward");
+            moves.add(new Move(file, rank, file + forward, rank));
+
+            if ((file == 1 && getColour() == Colour.WHITE) || (file == 6 && getColour() == Colour.BLACK))
             {
-                if (position.getPiece(file, rank + 2 * forward) == null)
+                if (position.getPiece(file + 2 * forward, rank) == null)
                 {
-                    moves.add(new Move(file, rank, file, rank + 2 * forward));
+                    moves.add(new Move(file, rank, file + 2 * forward, rank));
                 }
             }
         }

@@ -1,7 +1,10 @@
 package chess.desktop;
 
+import java.util.List;
+
 import chess.core.*;
 import chess.core.game.Game;
+import chess.core.move.Move;
 import chess.core.piece.Piece;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -15,7 +18,7 @@ import javafx.scene.shape.Shape;
 public class ChessBoard extends GridPane {
     private static final int SQUARE_SIZE = 80;
     private final Game game;
-    private  ChessSquare[][] squares = new ChessSquare[8][8];
+    private ChessSquare[][] squares = new ChessSquare[8][8];
 
     private Integer selectedFile = null;
     private Integer selectedRank = null;
@@ -55,16 +58,41 @@ public class ChessBoard extends GridPane {
     private void handleSquareClick(int file, int rank)
     {
         System.out.println("square " + (char)('a' + file) + (rank + 1));
+        clearSelections();
         Position position = game.getCurrentPosition();
         Piece clickedPiece = position.getPiece(rank, file);
 
-
-        ///// Very important to do the possible moves correct rn
-
-        highlightSelection(file, 7-rank);
-
         if (clickedPiece != null)
             System.out.println("clicked on piece " + clickedPiece.toString());
+
+        Piece pastPiece = null;
+
+        if (selectedFile != null)
+            pastPiece = position.getPiece(selectedRank, selectedFile);
+        ///// Very important to do the possible moves correct rn
+        
+        if (pastPiece == null)
+        {
+            highlightSelection(file, 7-rank);
+
+            if (clickedPiece != null)
+            {
+                List<Move> validMoves = clickedPiece.generateValidMoves(position, rank, file);
+                for (Move move : validMoves)
+                {
+                    System.out.println(move.toString());
+                    highlightSelection(move.toRank, 7-move.toFile);
+                }
+            }
+        }
+        else
+        {
+            System.out.println("Past piece: " + pastPiece.toString());
+        }
+        
+
+        selectedRank = rank;
+        selectedFile = file;
     }
 
     // used for each move. doesn't reset the squares, but replACES the ONE PIECEs
@@ -93,8 +121,6 @@ public class ChessBoard extends GridPane {
 
     private void highlightSelection(int file, int rank)
     {
-        clearSelections();
-        
         ChessSquare pane = squares[file][rank];
         Rectangle highlight = new Rectangle(SQUARE_SIZE, SQUARE_SIZE, Color.YELLOW);
         highlight.setOpacity(0.5);
@@ -111,8 +137,6 @@ public class ChessBoard extends GridPane {
                 pane.setHighlight(null);
             }
         }
-        selectedFile = null;
-        selectedRank = null;
     }
 
     //[[maybe_unused]] Generated stuff to print out info about StackPanes to help debuging
