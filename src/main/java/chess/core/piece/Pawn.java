@@ -48,20 +48,20 @@ public class Pawn extends Piece
             }
         }
 
-        int[] captureFiles = {file - 1, file + 1}; // attacking
+        int[] captureFiles = {rank - 1, rank + 1}; // attacking
         for (int f : captureFiles) {
-            if (position.isInBounds(f, rank + forward))
+            if (position.isInBounds(file + forward, f))
             {
-                Piece target = position.getPiece(f, rank + forward);// normal attacking
+                Piece target = position.getPiece(file + forward, f);// normal attacking
 
                 if (target != null && target.getColour() != getColour())
                 {
-                    moves.add(new NormalMove(file, rank, f, rank + forward));
+                    moves.add(new NormalMove(file, rank, file + forward, f));
                 }
                 
                 if ((rank + 3*forward == 0 || rank + 3*forward == 7) && f == position.getEnPassantFile())
                 {
-                    moves.add(new EnPassantMove(file, rank, f, rank + forward));
+                    moves.add(new EnPassantMove(file, rank, file + forward, f));
                 }
             }
         }

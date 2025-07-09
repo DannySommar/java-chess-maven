@@ -58,6 +58,7 @@ public class ChessBoard extends GridPane {
 
     private void handleSquareClick(int file, int rank)
     {
+        System.out.println("clicked on file: " + file + " , rank: " + rank);
         System.out.println("square " + (char)('a' + file) + (rank + 1));
         clearSelections();
         Position position = game.getCurrentPosition();
