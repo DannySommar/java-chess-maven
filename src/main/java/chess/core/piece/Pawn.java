@@ -59,7 +59,7 @@ public class Pawn extends Piece
                     moves.add(new NormalMove(file, rank, file + forward, f));
                 }
                 
-                if ((rank + 3*forward == 0 || rank + 3*forward == 7) && f == position.getEnPassantFile())
+                if ((file + 3*forward == 0 || file + 3*forward == 7) && f == position.getEnPassantFile())
                 {
                     moves.add(new EnPassantMove(file, rank, file + forward, f));
                 }

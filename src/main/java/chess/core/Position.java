@@ -100,7 +100,7 @@ public class Position
         {
             newBoard[move.toFile][move.toRank] = piece;
             newBoard[move.fromFile][move.fromRank] = null;
-            newBoard[enPassantFile][move.fromRank] = null;
+            newBoard[move.fromFile][enPassantFile] = null;
         }
         else if (move instanceof IlVaticanoMove)
         {
@@ -138,9 +138,9 @@ public class Position
             else 
                 newCanBlackCastle = false;
         }
-        else if (piece instanceof Pawn && Math.abs(move.toRank - move.fromRank) == 2)
+        else if (piece instanceof Pawn && Math.abs(move.toFile - move.fromFile) == 2)
         {
-            newEnPassantFile = move.fromFile;
+            newEnPassantFile = move.fromRank;
         }
 
         return new Position(
