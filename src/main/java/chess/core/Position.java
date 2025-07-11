@@ -143,13 +143,20 @@ public class Position
             newEnPassantFile = move.fromRank;
         }
 
-        return new Position(
+
+        Position newPosition = new Position(
             newBoard,
             newTurn,
             newCanWhiteCastle,
             newCanBlackCastle,
             newEnPassantFile
         );
+
+        // System.out.println("next position:");
+        // System.out.println(move.toString());
+        // newPosition.printBoard();
+
+        return newPosition;
     }
 
     private int findRookFile(int rank, int startFile, int endFile)
@@ -173,6 +180,14 @@ public class Position
             for (int col = 0; col < board[row].length; col++)
             {
                 newBoard[row][col] = board[row][col];
+
+                // Only if pieces themselves suddently becme mutable
+                // Piece oldPiece = board[row][col];
+                // if (oldPiece != null)
+                // {
+                //     Piece newPiece = oldPiece.copy();
+                //     newBoard[row][col] = newPiece;
+                // }
             }
         }
 
@@ -214,13 +229,18 @@ public class Position
         {
             if (validMove.matches(move))
             {
-                Position newPosition = this.doMove(move);
+                Position newPosition = this.doMove(validMove);
 
                 Square kingSquare = newPosition.getKingSquare(turn); // get square of THIS king
 
                 if (newPosition.isSquareAttacked(kingSquare.file, kingSquare.rank))
+                {
+                    System.out.println("new position where cant make move cause king attacked");
+                    newPosition.printBoard();
+                    System.out.println(move.toString());
+                    System.out.println("king is attacked");
                     return null;
-
+                }
                 return validMove;
             }
         }
@@ -265,7 +285,10 @@ public class Position
                 if (piece != null && piece.getColour() == turn) // for next posotion, it's colour is correct to check if the opposite king is attacked
                 {
                     if (piece.isAttackingSquare(this, f, r, attackedFile, attackedRank))
+                    {
+                        //System.out.println(piece.toString());
                         return true;
+                    }
                 }
 
             }

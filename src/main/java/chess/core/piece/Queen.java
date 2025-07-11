@@ -70,4 +70,11 @@ public class Queen extends Piece
         return (fileDiff == 0 || rankDiff == 0 || fileDiff == rankDiff) && 
                 pos.isClearPath(currentFile, currentRank, targetFile, targetRank);
     }
+
+    @Override
+    public Piece copy()
+    {
+        Queen copy = new Queen(this.getColour());
+        return copy;
+    }
 }

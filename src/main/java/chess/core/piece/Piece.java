@@ -35,4 +35,5 @@ public abstract class Piece
 
     public abstract boolean isAttackingSquare(Position pos, int currentFile, int currentRank, int targetFile, int targetRank);
 
+    public abstract Piece copy(); // for deepcopy of board
 }

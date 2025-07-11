@@ -115,7 +115,7 @@ public class ChessBoard extends GridPane {
             selectedRank = null;
         }
         
-
+        System.out.println();
     }
 
     // used for each move. doesn't reset the squares, but replACES the ONE PIECEs
@@ -133,10 +133,10 @@ public class ChessBoard extends GridPane {
                 if (piece != null)
                 {
                     pieceView = new PieceRenderer(piece);
-                    System.out.println("added piece " + piece.toString() + " to " + rank + ", " + file);
+                    //System.out.println("added piece " + piece.toString() + " to " + rank + ", " + file);
                 }
                 squarePane.setPiece(pieceView);
-                printStackPaneChildren(squarePane, rank, file);
+                //printStackPaneChildren(squarePane, rank, file);
                 
             }
         }

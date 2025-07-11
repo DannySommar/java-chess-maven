@@ -97,4 +97,11 @@ public class Bishop extends Piece
         return fileDiff == rankDiff && 
                 pos.isClearPath(currentFile, currentRank, targetFile, targetRank);
     }
+
+    @Override
+    public Piece copy()
+    {
+        Bishop copy = new Bishop(this.getColour());
+        return copy;
+    }
 }

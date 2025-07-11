@@ -88,6 +88,7 @@ public abstract class Game
         {
             throw new InvalidMoveException("invalid move");
         }
+        //System.out.println("position.returnLegalMoveOrNull says move is legal");
 
         if (position.getPiece(move.fromFile, move.fromRank) instanceof Pawn)
             moveCounter = 0;

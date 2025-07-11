@@ -30,13 +30,12 @@ public class Pawn extends Piece
         int forward = (getColour() == Colour.WHITE) ? 1 : -1; // normal (includes promotion)
 
         // I messed up rank and file :( 
-        System.out.println("forward: " + forward);
-        System.out.println("file: " + rank + " rank: " + file);
-        System.out.println("file: " + rank + " next rank: " + (file+forward));
+        // System.out.println("forward: " + forward);
+        // System.out.println("file: " + rank + " rank: " + file);
+        // System.out.println("file: " + rank + " next rank: " + (file+forward));
         
         if (position.isInBounds(file + forward, rank) && position.getPiece(file + forward, rank) == null) // double starter
         {
-            System.out.println("added forward");
             moves.add(new NormalMove(file, rank, file + forward, rank));
 
             if ((file == 1 && getColour() == Colour.WHITE) || (file == 6 && getColour() == Colour.BLACK))
@@ -80,5 +79,12 @@ public class Pawn extends Piece
         }
 
         return false;
+    }
+
+    @Override
+    public Piece copy()
+    {
+        Pawn copy = new Pawn(this.getColour());
+        return copy;
     }
 }

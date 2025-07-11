@@ -108,4 +108,11 @@ public class Rook extends Piece
         return (fileDiff == 0 || rankDiff == 0) && 
                 pos.isClearPath(currentFile, currentRank, targetFile, targetRank);
     }
+
+    @Override
+    public Rook copy()
+    {
+        Rook copy = new Rook(this.getColour());
+        return copy;
+    }
 }

@@ -61,4 +61,11 @@ public class Horse extends Piece
         }
         return false;
     }
+
+    @Override
+    public Piece copy()
+    {
+        Horse copy = new Horse(this.getColour());
+        return copy;
+    }
 }

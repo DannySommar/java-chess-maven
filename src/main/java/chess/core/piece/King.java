@@ -88,4 +88,11 @@ public class King extends Piece
 
         return (fileDiff <= 1) && (rankDiff <= 1);
     }
+
+    @Override
+    public Piece copy()
+    {
+        King copy = new King(this.getColour());
+        return copy;
+    }
 }
