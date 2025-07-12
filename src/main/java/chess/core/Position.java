@@ -232,8 +232,9 @@ public class Position
                 Position newPosition = this.doMove(validMove);
 
                 Square kingSquare = newPosition.getKingSquare(turn); // get square of THIS king
+                System.out.println("king file: " + kingSquare.file + " King rank: " + kingSquare.rank);
 
-                if (newPosition.isSquareAttacked(kingSquare.file, kingSquare.rank))
+                if (newPosition.isSquareAttacked(kingSquare.file, kingSquare.rank, turn.getOpposite()))
                 {
                     System.out.println("new position where cant make move cause king attacked");
                     newPosition.printBoard();
@@ -274,7 +275,7 @@ public class Position
         throw new IllegalStateException("King not found"); 
     }
 
-    public boolean isSquareAttacked(int attackedFile, int attackedRank)
+    public boolean isSquareAttacked(int attackedFile, int attackedRank, Colour playersTurn)
     {
         for (int f = 0; f < 8; f++)
         {
@@ -282,7 +283,7 @@ public class Position
             {
                 Piece piece = getPiece(f, r);
 
-                if (piece != null && piece.getColour() == turn) // for next posotion, it's colour is correct to check if the opposite king is attacked
+                if (piece != null && piece.getColour() == playersTurn) // for next posotion, it's colour is correct to check if the opposite king is attacked
                 {
                     if (piece.isAttackingSquare(this, f, r, attackedFile, attackedRank))
                     {

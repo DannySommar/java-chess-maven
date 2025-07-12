@@ -45,35 +45,39 @@ public class King extends Piece
             }
         }
 
+        System.out.println("checking if king attacked");
         
         // I know its wrong, but i need to fix the entire board setup for this.
         // create castling right class for the position, contains starting position of rooks and kings
-        if (!position.isSquareAttacked(file, rank))
+        if (!position.isSquareAttacked(file, rank, getColour().getOpposite()))
         {
+            System.out.println("checking if king can castle");
             if (position.canCastleKingSide(getColour()))
             {
-                int currentFile = file - 1;
-                if (position.getPiece(currentFile, rank) == null || position.getPiece(currentFile, rank).getColour() == getColour().getOpposite()) // normal move, so no castling
-                    currentFile --;
+                System.out.println("king ma be able to castle kingside");
+                int currentRank = rank - 1;
+                if (position.getPiece(file, currentRank) == null || position.getPiece(file, currentRank).getColour() == getColour().getOpposite()) // normal move, so no castling
+                    currentRank --;
 
-                while (position.isInBounds(currentFile, rank))
+                while (position.isInBounds(file, currentRank))
                 {
-                    validMoves.add(new CastlingMove(file, rank, currentFile, rank));
-                    currentFile --;
+                    validMoves.add(new CastlingMove(file, rank, file, currentRank));
+                    currentRank --;
                 }
             }
-            if (position.canCastleQueenSide(getColour()))
-            {
-                int currentFile = file + 1;
-                if (position.getPiece(currentFile, rank) == null || position.getPiece(currentFile, rank).getColour() == getColour().getOpposite()) // normal move, so no castling
-                    currentFile ++;
+            // if (position.canCastleQueenSide(getColour()))
+            // {
+            //     System.out.println("king may be able to castle Queen side");
+            //     int currentFile = file + 1;
+            //     if (position.getPiece(currentFile, rank) == null || position.getPiece(currentFile, rank).getColour() == getColour().getOpposite()) // normal move, so no castling
+            //         currentFile ++;
 
-                while (position.isInBounds(currentFile, rank))
-                {
-                    validMoves.add(new CastlingMove(file, rank, currentFile, rank));
-                    currentFile ++;
-                }
-            }
+            //     while (position.isInBounds(currentFile, rank))
+            //     {
+            //         validMoves.add(new CastlingMove(file, rank, currentFile, rank));
+            //         currentFile ++;
+            //     }
+            // }
         }
 
         return validMoves;
