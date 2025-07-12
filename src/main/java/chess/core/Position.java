@@ -14,23 +14,23 @@ public class Position
     private Piece[][] board = new Piece[8][8]; // empty board
     private Colour turn;
 
-    public boolean canWhiteCastle;
-    public boolean canBlackCastle ;
+    private CastlingRights whiteCastling;
+    private CastlingRights blackCastling;
     protected int enPassantFile; // we only need the file, as we can deterine the rank by Colour.WHITE ? 4 : 6
      
 
-    public Position(Piece[][] board, Colour turn, boolean canWhiteCastle, boolean canBlackCastle, int enPassantFile)
+    public Position(Piece[][] board, Colour turn, CastlingRights whiteCastling, CastlingRights blackCastling, int enPassantFile)
     {
         this.board = board;
         this.turn = turn;
-        this.canBlackCastle = canBlackCastle;
-        this.canWhiteCastle = canWhiteCastle;
+        this.whiteCastling = whiteCastling;
+        this.blackCastling = blackCastling;
         this.enPassantFile = enPassantFile;
     }
 
     public Position(Piece[][] board, Colour turn)
     {
-        this(board, turn, true, true, -1);
+        this(board, turn, CastlingRights.standard(), CastlingRights.standard(), -1);
     }
 
     public void placePiece(Piece piece, int file, int rank)
@@ -55,8 +55,8 @@ public class Position
 
         Colour newTurn = turn.getOpposite();
         int newEnPassantFile = -1;
-        boolean newCanWhiteCastle = canWhiteCastle;
-        boolean newCanBlackCastle = canBlackCastle;
+        CastlingRights newWhiteCastling = whiteCastling;
+        CastlingRights newBlackCastling = blackCastling;
 
         //I know some stuff repeats, but I prefer it that way
         if (move instanceof NormalMove)
@@ -134,21 +134,46 @@ public class Position
         if (piece instanceof King)
         {
             if (piece.getColour() == Colour.WHITE)
-                newCanWhiteCastle = false;
+                newWhiteCastling = whiteCastling.disableBoth();
             else 
-                newCanBlackCastle = false;
+                newBlackCastling = blackCastling.disableBoth();
         }
         else if (piece instanceof Pawn && Math.abs(move.toFile - move.fromFile) == 2)
         {
             newEnPassantFile = move.fromRank;
+        }
+        else if (piece instanceof Rook)
+        {
+            if (piece.getColour() == Colour.WHITE)
+            {
+                if (move.fromFile == whiteCastling.getKingsideRookFile())
+                {
+                    newWhiteCastling = whiteCastling.disableKingside();
+                } 
+                else if (move.fromFile == whiteCastling.getQueensideRookFile())
+                {
+                    newWhiteCastling = whiteCastling.disableQueenside();
+                }
+            }
+            else
+            {
+                if (move.fromFile == blackCastling.getKingsideRookFile())
+                {
+                    newBlackCastling = blackCastling.disableKingside();
+                }
+                else if (move.fromFile == blackCastling.getQueensideRookFile())
+                {
+                    newBlackCastling = blackCastling.disableQueenside();
+                }
+            }
         }
 
 
         Position newPosition = new Position(
             newBoard,
             newTurn,
-            newCanWhiteCastle,
-            newCanBlackCastle,
+            newWhiteCastling,
+            newBlackCastling,
             newEnPassantFile
         );
 
@@ -306,21 +331,22 @@ public class Position
     // will change later
     public boolean canWhiteCastleKingSide()
     {
-        return canWhiteCastle;
+        return whiteCastling.isKingsideAllowed();
     }
 
     public boolean canWhiteCastleQueenSide()
     {
-        return canWhiteCastle;
+        return whiteCastling.isQueensideAllowed();
     }
-        public boolean canBlackCastleKingSide()
+
+    public boolean canBlackCastleKingSide()
     {
-        return canBlackCastle;
+        return blackCastling.isKingsideAllowed();
     }
 
     public boolean canBlackCastleQueenSide()
     {
-        return canBlackCastle;
+        return blackCastling.isQueensideAllowed();
     }
 
     public boolean canCastleQueenSide(Colour c)
