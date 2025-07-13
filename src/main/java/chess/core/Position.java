@@ -68,26 +68,20 @@ public class Position
         {
             if (((CastlingMove)move).isKingSide())
             {
-                // move rook
-                int rookFromFile = findRookFile(move.fromRank, move.fromFile + 1, 7);
-                Piece rook = newBoard[rookFromFile][move.fromRank];
-                newBoard[rookFromFile][move.fromRank] = null;
-                newBoard[5][move.fromRank] = rook;
-
-                // move king
+                Piece rook = newBoard[move.fromFile][getKingsideRookFile()];
+                newBoard[move.fromFile][getKingsideRookFile()] = null;
                 newBoard[move.fromFile][move.fromRank] = null;
-                newBoard[6][move.fromRank] = piece;
+
+                newBoard[move.fromFile][6] = piece;
+                newBoard[move.fromFile][5] = rook;
             }
             else{
-                // move rook
-                int rookFromFile = findRookFile(move.fromRank, 0, move.fromFile - 1);
-                Piece rook = newBoard[rookFromFile][move.fromRank];
-                newBoard[rookFromFile][move.fromRank] = null;
-                newBoard[3][move.fromRank] = rook;
-
-                // move king
+                Piece rook = newBoard[move.fromFile][getQueensideRookFile()];
+                newBoard[move.fromFile][getQueensideRookFile()] = null;
                 newBoard[move.fromFile][move.fromRank] = null;
-                newBoard[2][move.fromRank] = piece;
+                
+                newBoard[move.fromFile][2] = piece;
+                newBoard[move.fromFile][3] = rook;
             }
         }
         else if (move instanceof PromotionMove)
@@ -146,22 +140,23 @@ public class Position
         {
             if (piece.getColour() == Colour.WHITE)
             {
-                if (move.fromFile == whiteCastling.getKingsideRookFile())
+                System.out.println("white rook moved fromrank: " + move.fromRank);
+                if (move.fromRank == whiteCastling.getKingsideRookFile())
                 {
                     newWhiteCastling = whiteCastling.disableKingside();
                 } 
-                else if (move.fromFile == whiteCastling.getQueensideRookFile())
+                else if (move.fromRank == whiteCastling.getQueensideRookFile())
                 {
                     newWhiteCastling = whiteCastling.disableQueenside();
                 }
             }
             else
             {
-                if (move.fromFile == blackCastling.getKingsideRookFile())
+                if (move.fromRank == blackCastling.getKingsideRookFile())
                 {
                     newBlackCastling = blackCastling.disableKingside();
                 }
-                else if (move.fromFile == blackCastling.getQueensideRookFile())
+                else if (move.fromRank == blackCastling.getQueensideRookFile())
                 {
                     newBlackCastling = blackCastling.disableQueenside();
                 }
@@ -182,18 +177,6 @@ public class Position
         // newPosition.printBoard();
 
         return newPosition;
-    }
-
-    private int findRookFile(int rank, int startFile, int endFile)
-    {
-        int step = startFile <= endFile ? 1 : -1;
-        for (int f = startFile; f != endFile + step; f += step)
-        {
-            Piece p = board[f][rank];
-            if (p instanceof Rook && p.getColour() == turn)
-                return f;
-        }
-        throw new IllegalStateException("no rook");
     }
 
     public Piece[][] deepCopyBoard()
@@ -363,6 +346,20 @@ public class Position
             return canBlackCastleKingSide();
     }
 
+    public int getKingStartFile()
+    {
+        return blackCastling.getKingFile();
+    }
+
+    public int getKingsideRookFile()
+    {
+        return blackCastling.getKingsideRookFile();
+    }
+    public int getQueensideRookFile()
+    {
+        return blackCastling.getQueensideRookFile();
+    }
+
     // helper for certain piece isAttackingSquare()
     public boolean isClearPath(int fromFile, int fromRank, int toFile, int toRank)
     {
@@ -374,6 +371,24 @@ public class Position
         while (f != toFile || r != toRank)
         {
             if (getPiece(f, r) != null)
+                return false;
+            f += fileStep;
+            r += rankStep;
+        }
+        return true;
+    }
+
+    // for castling
+    public boolean isSafePath(int fromFile, int fromRank, int toFile, int toRank)
+    {
+        int fileStep = Integer.signum(toFile - fromFile);
+        int rankStep = Integer.signum(toRank - fromRank);
+        int f = fromFile + fileStep;
+        int r = fromRank + rankStep;
+
+        while (f != toFile || r != toRank)
+        {
+            if (getPiece(f, r) != null || isSquareAttacked(f, r, turn.getOpposite()))
                 return false;
             f += fileStep;
             r += rankStep;

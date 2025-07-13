@@ -54,30 +54,25 @@ public class King extends Piece
             System.out.println("checking if king can castle");
             if (position.canCastleKingSide(getColour()))
             {
+                // not yet suited for chess960
                 System.out.println("king ma be able to castle kingside");
-                int currentRank = rank - 1;
-                if (position.getPiece(file, currentRank) == null || position.getPiece(file, currentRank).getColour() == getColour().getOpposite()) // normal move, so no castling
-                    currentRank --;
-
-                while (position.isInBounds(file, currentRank))
+                
+                if (position.isSafePath(file, rank, file, position.getKingsideRookFile()))
                 {
-                    validMoves.add(new CastlingMove(file, rank, file, currentRank));
-                    currentRank --;
+                    System.out.println("path to Kingside rook is clear and safe");
+                    validMoves.add(new CastlingMove(file, rank, file, position.getKingsideRookFile()));
                 }
             }
-            // if (position.canCastleQueenSide(getColour()))
-            // {
-            //     System.out.println("king may be able to castle Queen side");
-            //     int currentFile = file + 1;
-            //     if (position.getPiece(currentFile, rank) == null || position.getPiece(currentFile, rank).getColour() == getColour().getOpposite()) // normal move, so no castling
-            //         currentFile ++;
-
-            //     while (position.isInBounds(currentFile, rank))
-            //     {
-            //         validMoves.add(new CastlingMove(file, rank, currentFile, rank));
-            //         currentFile ++;
-            //     }
-            // }
+            if (position.canCastleQueenSide(getColour()))
+            {
+                System.out.println("king may be able to castle QueeenSide");
+                
+                if (position.isSafePath(file, rank, file, position.getQueensideRookFile()))
+                {
+                    System.out.println("path to Queenside rook is clear and safe");
+                    validMoves.add(new CastlingMove(file, rank, file, position.getQueensideRookFile()));
+                }
+            }
         }
 
         return validMoves;
