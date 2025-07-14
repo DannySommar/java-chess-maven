@@ -84,6 +84,8 @@ public abstract class Game
 
         Move newMove = position.returnLegalMoveOrNull(move);
 
+        //System.out.println(newMove);
+
         if (newMove == null)
         {
             throw new InvalidMoveException("invalid move");

@@ -86,6 +86,7 @@ public class Position
         }
         else if (move instanceof PromotionMove)
         {
+            System.out.println("promotion move");
             piece = ((PromotionMove)move).getPromotedTo();
             newBoard[move.toFile][move.toRank] = piece;
             newBoard[move.fromFile][move.fromRank] = null;
