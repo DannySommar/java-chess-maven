@@ -236,6 +236,13 @@ public class Position
         
         for (Move validMove : validMoves)
         {
+            // if (move instanceof PromotionMove)
+            // {
+            //     System.out.println("returning it intopromotion move");
+            //     move = (PromotionMove)move;
+            // }
+            System.out.println(validMove);
+            System.out.println("chosen move: " + move);
             if (validMove.matches(move))
             {
                 Position newPosition = this.doMove(validMove);

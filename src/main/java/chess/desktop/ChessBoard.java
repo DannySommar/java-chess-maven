@@ -5,6 +5,10 @@ import java.util.List;
 import chess.core.*;
 import chess.core.game.Game;
 import chess.core.move.Move;
+import chess.core.move.PromotionMove;
+import chess.core.piece.Bishop;
+import chess.core.piece.Horse;
+import chess.core.piece.Pawn;
 import chess.core.piece.Piece;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -96,6 +100,12 @@ public class ChessBoard extends GridPane {
             System.out.println("Past piece: " + pastPiece.toString());
 
             Move attemptedMove = new Move(selectedRank, selectedFile, rank, file);
+            if (pastPiece instanceof Pawn && (rank == 7 || rank == 0))
+            {
+                System.out.println("move is a promotion");
+                attemptedMove = handlePromotion(attemptedMove);
+            }
+
             System.out.println("Tried making move: " + attemptedMove.toString());
 
             try
@@ -116,6 +126,13 @@ public class ChessBoard extends GridPane {
         }
         
         System.out.println();
+    }
+
+    private PromotionMove handlePromotion(Move move)
+    {
+        Piece promoPiece = new Bishop(game.getTurn());
+
+        return new PromotionMove(move.fromFile, move.fromRank, move.toFile, move.toRank, promoPiece);
     }
 
     // used for each move. doesn't reset the squares, but replACES the ONE PIECEs
