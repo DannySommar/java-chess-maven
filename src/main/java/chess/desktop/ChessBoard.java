@@ -1,6 +1,7 @@
 package chess.desktop;
 
 import java.util.List;
+import java.util.Optional;
 
 import chess.core.*;
 import chess.core.game.Game;
@@ -130,6 +131,17 @@ public class ChessBoard extends GridPane {
 
     private PromotionMove handlePromotion(Move move)
     {
+    
+        PromotionDialogue dialog = new PromotionDialogue(game.getTurn());
+        Optional<Piece> result = dialog.showAndWait();
+
+        if (result.isPresent())
+        {
+            Piece dialoguePiece = result.get();
+            return new PromotionMove(move.fromFile, move.fromRank, move.toFile, move.toRank, dialoguePiece);
+        }
+
+        // if nothing selected
         Piece promoPiece = new Bishop(game.getTurn());
 
         return new PromotionMove(move.fromFile, move.fromRank, move.toFile, move.toRank, promoPiece);
