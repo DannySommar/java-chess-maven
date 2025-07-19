@@ -1,9 +1,7 @@
 package chess.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import chess.core.game.*;
 import chess.core.move.*;
 import chess.core.piece.*;
 
@@ -108,6 +106,9 @@ public class Position
                 throw new IllegalStateException("Il Vaticano: elephants must be aligned");
 
             int distance = isHorizontal ? Math.abs(move.toFile - move.fromFile) : Math.abs(move.toRank - move.fromRank);
+
+            if (!(distance == 2 || distance == 3))
+                throw new IllegalStateException(" il vaticano can be only done 2 or 3 squares appart");
             
             int fileStep = Integer.signum(move.toFile - move.fromFile);
             int rankStep = Integer.signum(move.toRank - move.fromRank);

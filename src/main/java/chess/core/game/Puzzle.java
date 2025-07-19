@@ -1,8 +1,6 @@
 package chess.core.game;
 
-import chess.core.Colour;
 import chess.core.Position;
-import chess.core.piece.*;
 
 // Makes a custom game with a given position
 public class Puzzle extends Game

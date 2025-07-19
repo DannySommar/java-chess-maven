@@ -106,29 +106,12 @@ public abstract class Game
         cachedCurrentPosition = position.doMove(newMove);
     }
 
-    public boolean isEnPassant(Move move)
-    {
-        return false;
-    }
-
-    public void validateEnPassent(Move move)
-    {
-
-    }
-
-        public boolean isCastling(Move move)
-    {
-        return false;
-    }
-
-    public void validateCastling(Move move)
-    {
-        
-    }
-
 
     public static void main(String[] args)
     {
+        System.out.println("♘"); // for print testing purposes on windows terminal
+        System.out.println("\u2658");
+        
         Game game = new StandardGame("w", "b");
 
         System.out.println("White Player: " + game.getWhitePlayer());

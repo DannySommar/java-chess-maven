@@ -1,7 +1,5 @@
 package chess.core.move;
 
-import chess.core.Colour;
-import chess.core.Position;
 
 public class Move
 {
