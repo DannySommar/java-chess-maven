@@ -7,6 +7,7 @@ import chess.core.Colour;
 import chess.core.InvalidMoveException;
 import chess.core.Position;
 import chess.core.move.*;
+import chess.core.piece.Bishop;
 import chess.core.piece.Horse;
 import chess.core.piece.Pawn;
 import chess.core.piece.Piece;
@@ -109,30 +110,13 @@ public abstract class Game
 
     public static void main(String[] args)
     {
-        System.out.println("♘"); // for print testing purposes on windows terminal
-        System.out.println("\u2658");
-        
-        Game game = new StandardGame("w", "b");
+        Position position = new Position(new Piece[8][8], Colour.WHITE);
+        Bishop bishop = new Bishop(Colour.WHITE);
 
-        System.out.println("White Player: " + game.getWhitePlayer());
-        System.out.println("Black Player: " + game.getBlackPlayer());
+        position.placePiece(bishop, 3, 3);
 
-        System.out.println("Starting Position:");
-        System.out.println(game.getCurrentPosition());
-        game.getCurrentPosition().printBoard();
-
-
-       // Create a custom empty board position
-        Piece[][] emptyBoard = new Piece[8][8]; // Create an empty board
-        emptyBoard[0][1] = new Horse(Colour.WHITE);
-        Position customPosition = new Position(emptyBoard, Colour.BLACK); // Initialize custom position
-        System.out.println("Custom Position:");
-        customPosition.printBoard();
-
-        // Create a Puzzle game with the custom position
-        Game puzzle = new Puzzle("White", "Black", customPosition);
-        System.out.println("Puzzle Starting Position:");
-        System.out.println(puzzle.startingPosition);
-        puzzle.getStartingPosition().printBoard();
+        List<Move> moves = bishop.generateValidMoves(position, 3, 3);
+        for (Move move : moves)
+            System.out.println(move.toString());
     }
 }

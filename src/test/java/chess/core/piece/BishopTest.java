@@ -37,6 +37,9 @@ public class BishopTest
         assertTrue(moves.contains(new NormalMove(3, 3, 2, 2)));
         assertTrue(moves.contains(new NormalMove(3, 3, 4, 2)));
         assertTrue(moves.contains(new NormalMove(3, 3, 1, 5)));
+
+        assertFalse(moves.stream().anyMatch(m -> m.toRank == 3));
+        assertFalse(moves.stream().allMatch(m -> m.toRank == 3));
     }
 
     @Test
