@@ -1,53 +1,91 @@
-// package chess.core.piece;
+package chess.core.piece;
 
-// import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-// import org.junit.jupiter.api.Test;
+import java.util.List;
 
-// import chess.core.Colour;
-// import chess.core.Position;
-// import chess.core.move.Move;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-// public class RookTest
-// {
-//     @Test
-//     void rookCanMoveHorizontally()
-//     {
-//         Piece[][] empty = new Piece[8][8];
-//         Position emptyPosition = new Position(empty, Colour.WHITE);
+import chess.core.Colour;
+import chess.core.Position;
+import chess.core.move.Move;
+import chess.core.move.NormalMove;
 
-//         emptyPosition.placePiece(new Rook(Colour.WHITE), 0, 0);
+public class RookTest
+{
 
-//         assertTrue(emptyPosition.isMoveLegal(new Move(0, 0, 4, 0)));
-//         assertTrue(emptyPosition.isMoveLegal(new Move(0, 0, 0, 7)));
+    private Position position;
+    private Rook rook;
 
-//         assertFalse(emptyPosition.isMoveLegal(new Move(0, 0, 0, 0)));
-//         assertFalse(emptyPosition.isMoveLegal(new Move(0, 0, 1, 1)));
-//     }  
+    @BeforeEach
+    void setUp()
+    {
+        position = new Position(new Piece[8][8], Colour.WHITE);
+        rook = new Rook(Colour.WHITE);
+    }
+
+    @Test
+    void generatesHorizontalAndVerticalMoves()
+    {
+        position.placePiece(rook, 0, 0);
+        List<Move> moves = rook.generateValidMoves(position, 0, 0);
+        
+        assertEquals(14, moves.size());
+        
+        
+        for (int file = 1; file < 8; file++)
+            assertTrue(moves.contains(new NormalMove(0, 0, file, 0)));
+        
+        for (int rank = 1; rank < 8; rank++)
+            assertTrue(moves.contains(new NormalMove(0, 0, 0, rank)));
+        
+        assertFalse(moves.contains(new NormalMove(0, 0, 1, 1)));
+    }
     
-//     @Test
-//     void rookCantJump()
-//     {
-//         Piece[][] empty = new Piece[8][8];
-//         Position emptyPosition = new Position(empty, Colour.WHITE);
+    @Test
+    void doesNotGenerateMovesBeyondBlockedPaths()
+    {
+        position.placePiece(rook, 4, 4);
+        position.placePiece(new Pawn(Colour.WHITE), 4, 6);
+        position.placePiece(new Pawn(Colour.BLACK), 2, 4);
+        
+        List<Move> moves = rook.generateValidMoves(position, 4, 4);
+        
+        // can't take fren nor go past
+        assertTrue(moves.contains(new NormalMove(4, 4, 4, 5)));
+        assertFalse(moves.contains(new NormalMove(4, 4, 4, 6)));
+        assertFalse(moves.contains(new NormalMove(4, 4, 4, 7)));
+        
+        for (int rank = 3; rank >= 0; rank--)
+            assertTrue(moves.contains(new NormalMove(4, 4, 4, rank)));
+        
+        // can take but not go past
+        assertTrue(moves.contains(new NormalMove(4, 4, 3, 4)));
+        assertTrue(moves.contains(new NormalMove(4, 4, 2, 4)));
+        assertFalse(moves.contains(new NormalMove(4, 4, 1, 4)));
+        assertFalse(moves.contains(new NormalMove(4, 4, 0, 4)));
+        
+        for (int file = 5; file < 8; file++)
+            assertTrue(moves.contains(new NormalMove(4, 4, file, 4)));
+    }
 
-//         emptyPosition.placePiece(new Rook(Colour.WHITE), 0, 0);
-//         emptyPosition.placePiece(new Pawn(Colour.WHITE), 0, 1);
+    @Test
+    void generatesAll14MovesFromEverySquareOnEmptyBoard()
+    {
+        // Test all 64 squares
+        for (int file = 0; file < 8; file++)
+        {
+            for (int rank = 0; rank < 8; rank++)
+            {
+                position.placePiece(rook, file, rank);
+                List<Move> moves = rook.generateValidMoves(position, file, rank);
+                
+                assertEquals(14, moves.size());
+                
+                position.placePiece(null, file, rank);
+            }
+        }
+    }
 
-//         assertFalse(emptyPosition.isMoveLegal(new Move(0, 0, 0, 2)));
-//         assertFalse(emptyPosition.isMoveLegal(new Move(0, 0, 0, 1)));
-//     }
-
-//     @Test 
-//     void rookCanTake()
-//     {
-//         Piece[][] empty = new Piece[8][8];
-//         Position emptyPosition = new Position(empty, Colour.WHITE);
-
-//         emptyPosition.placePiece(new Rook(Colour.WHITE), 4, 6);
-//         emptyPosition.placePiece(new Pawn(Colour.BLACK), 4, 1);
-
-//         assertTrue(emptyPosition.isMoveLegal(new Move(4, 6, 4, 1)));
-//     }
-
-// }
+}
