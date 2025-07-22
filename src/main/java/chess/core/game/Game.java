@@ -7,10 +7,7 @@ import chess.core.Colour;
 import chess.core.InvalidMoveException;
 import chess.core.Position;
 import chess.core.move.*;
-import chess.core.piece.Bishop;
-import chess.core.piece.Horse;
-import chess.core.piece.Pawn;
-import chess.core.piece.Piece;
+import chess.core.piece.*;
 
 public abstract class Game
 {
