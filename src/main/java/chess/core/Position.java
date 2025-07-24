@@ -66,20 +66,20 @@ public class Position
         {
             if (((CastlingMove)move).isKingSide())
             {
-                Piece rook = newBoard[move.fromFile][getKingsideRookFile()];
-                newBoard[move.fromFile][getKingsideRookFile()] = null;
+                Piece rook = newBoard[getKingsideRookFile()][move.fromRank];
+                newBoard[getKingsideRookFile()][move.fromRank] = null;
                 newBoard[move.fromFile][move.fromRank] = null;
 
-                newBoard[move.fromFile][6] = piece;
-                newBoard[move.fromFile][5] = rook;
+                newBoard[6][move.fromRank] = piece;
+                newBoard[5][move.fromRank] = rook;
             }
             else{
-                Piece rook = newBoard[move.fromFile][getQueensideRookFile()];
-                newBoard[move.fromFile][getQueensideRookFile()] = null;
+                Piece rook = newBoard[getQueensideRookFile()][move.fromRank];
+                newBoard[getQueensideRookFile()][move.fromRank] = null;
                 newBoard[move.fromFile][move.fromRank] = null;
-                
-                newBoard[move.fromFile][2] = piece;
-                newBoard[move.fromFile][3] = rook;
+
+                newBoard[2][move.fromRank] = piece;
+                newBoard[3][move.fromRank] = rook;
             }
         }
         else if (move instanceof PromotionMove)
@@ -93,7 +93,7 @@ public class Position
         {
             newBoard[move.toFile][move.toRank] = piece;
             newBoard[move.fromFile][move.fromRank] = null;
-            newBoard[move.fromFile][enPassantFile] = null;
+            newBoard[enPassantFile][move.fromRank] = null;
         }
         else if (move instanceof IlVaticanoMove)
         {
@@ -134,31 +134,31 @@ public class Position
             else 
                 newBlackCastling = blackCastling.disableBoth();
         }
-        else if (piece instanceof Pawn && Math.abs(move.toFile - move.fromFile) == 2)
+        else if (piece instanceof Pawn && Math.abs(move.toRank - move.fromRank) == 2)
         {
-            newEnPassantFile = move.fromRank;
+            newEnPassantFile = move.fromFile;
         }
         else if (piece instanceof Rook)
         {
             if (piece.getColour() == Colour.WHITE)
             {
                 System.out.println("white rook moved fromrank: " + move.fromRank);
-                if (move.fromRank == whiteCastling.getKingsideRookFile())
+                if (move.fromFile == whiteCastling.getKingsideRookFile())
                 {
                     newWhiteCastling = whiteCastling.disableKingside();
                 } 
-                else if (move.fromRank == whiteCastling.getQueensideRookFile())
+                else if (move.fromFile == whiteCastling.getQueensideRookFile())
                 {
                     newWhiteCastling = whiteCastling.disableQueenside();
                 }
             }
             else
             {
-                if (move.fromRank == blackCastling.getKingsideRookFile())
+                if (move.fromFile == blackCastling.getKingsideRookFile())
                 {
                     newBlackCastling = blackCastling.disableKingside();
                 }
-                else if (move.fromRank == blackCastling.getQueensideRookFile())
+                else if (move.fromFile == blackCastling.getQueensideRookFile())
                 {
                     newBlackCastling = blackCastling.disableQueenside();
                 }
@@ -207,16 +207,16 @@ public class Position
     public void printBoard()
     {
         // nice representation of board for debugging
-        for(int row = 0; row < board.length; row ++)
+        for(int rank = board.length-1; rank >= 0; rank --)
         {
-            for (int col = 0; col < board[row].length; col++)
+            for (int file = 0; file < board[0].length; file++)
             {
-                if(board[row][col] == null)
+                if(board[file][rank] == null)
                 {
-                    System.out.print("□ ");
+                    System.out.print("□□□ ");
                 }else
                 {
-                    System.out.print(board[row][col]+ " ");
+                    System.out.print(board[file][rank]+ " ");
                 }
             }
 

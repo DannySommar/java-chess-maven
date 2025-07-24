@@ -45,7 +45,7 @@ public class ChessBoard extends GridPane {
                 squares[file][rank] = squarePane;
                 add(squarePane, file, rank);
 
-                setSquareHandler(squarePane, file, 7-rank); // to make sure square is correct square
+                setSquareHandler(squarePane, file, rank); // to make sure square is correct square
                 
             }
         }
@@ -63,7 +63,7 @@ public class ChessBoard extends GridPane {
         System.out.println("square " + (char)('a' + file) + (rank + 1));
         clearSelections();
         Position position = game.getCurrentPosition();
-        Piece clickedPiece = position.getPiece(rank, file);
+        Piece clickedPiece = position.getPiece(file, rank);
 
         if (clickedPiece != null)
             System.out.println("clicked on piece " + clickedPiece.toString());
@@ -71,20 +71,20 @@ public class ChessBoard extends GridPane {
         Piece pastPiece = null;
 
         if (selectedFile != null)
-            pastPiece = position.getPiece(selectedRank, selectedFile);
+            pastPiece = position.getPiece(selectedFile, selectedRank);
 
         // if no piece currently slected
         if (pastPiece == null)
         {
-            highlightSelection(file, 7-rank);
+            highlightSelection(file, rank);
 
             if (clickedPiece != null && clickedPiece.getColour() == position.getTurn())
             {
-                List<Move> validMoves = clickedPiece.generateValidMoves(position, rank, file);
+                List<Move> validMoves = clickedPiece.generateValidMoves(position, file, rank);
                 for (Move move : validMoves)
                 {
                     System.out.println(move.toString());
-                    highlightSelection(move.toRank, 7-move.toFile);
+                    highlightSelection(move.toFile, move.toRank);
                 }
             }
 
@@ -96,7 +96,7 @@ public class ChessBoard extends GridPane {
         {
             System.out.println("Past piece: " + pastPiece.toString());
 
-            Move attemptedMove = new Move(selectedRank, selectedFile, rank, file);
+            Move attemptedMove = new Move(selectedFile, selectedRank, file, rank);
             if (pastPiece instanceof Pawn && (rank == 7 || rank == 0))
             {
                 System.out.println("move is a promotion");
@@ -146,23 +146,14 @@ public class ChessBoard extends GridPane {
     // used for each move. doesn't reset the squares, but replACES the ONE PIECEs
     void updatePieces()
     {
+        Position current = game.getCurrentPosition();
+        
         for (int rank = 0; rank < 8; rank++)
         {
             for (int file = 0; file < 8; file++)
             {
-                ChessSquare squarePane = squares[rank][file];
-
-                Piece piece = game.getCurrentPosition().getPiece(7-file, rank);
-
-                PieceRenderer pieceView = null;
-                if (piece != null)
-                {
-                    pieceView = new PieceRenderer(piece);
-                    //System.out.println("added piece " + piece.toString() + " to " + rank + ", " + file);
-                }
-                squarePane.setPiece(pieceView);
-                //printStackPaneChildren(squarePane, rank, file);
-                
+                Piece piece = current.getPiece(file, rank);
+                squares[file][rank].setPiece(piece != null ? new PieceRenderer(piece) : null);
             }
         }
     }

@@ -19,7 +19,7 @@ public class Horse extends Piece
 
     public String toString()
     {
-        return getColour() == Colour.WHITE ? "♘" : "♞";
+        return getColour() == Colour.WHITE ? "w_H" : "b_H";
     }
 
 

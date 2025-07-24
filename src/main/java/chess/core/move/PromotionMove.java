@@ -29,6 +29,6 @@ public class PromotionMove extends Move
     @Override
     public String toString()
     {
-        return "from " + (char)('a' + fromRank) + (fromFile+1) + " to " + (char)('a' + toRank) + (toFile+1) + " promote to " + promotedTo.toString();
+        return "from " + (char)('a' + fromFile) + (fromRank+1) + " to " + (char)('a' + toFile) + (toRank+1) + " promote to " + promotedTo.toString();
     }
 }

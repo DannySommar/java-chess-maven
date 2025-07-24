@@ -18,7 +18,7 @@ public class Bishop extends Piece
 
     public String toString()
     {
-        return getColour() == Colour.WHITE ? "♗" : "♝";
+        return getColour() == Colour.WHITE ? "w_B" : "b_B";
     }
 
 

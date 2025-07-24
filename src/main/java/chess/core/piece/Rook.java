@@ -19,7 +19,7 @@ public class Rook extends Piece
 
     public String toString()
     {
-        return getColour() == Colour.WHITE ? "♖" : "♜";
+        return getColour() == Colour.WHITE ? "w_R" : "b_R";
     }
 
     @Override

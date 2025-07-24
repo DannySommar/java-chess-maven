@@ -58,7 +58,7 @@ public class Move
 
     public String toString()
     {
-        return "from " + (char)('a' + fromRank) + (fromFile+1) + " to " + (char)('a' + toRank) + (toFile+1);
+        return "from " + (char)('a' + fromFile) + (fromRank+1) + " to " + (char)('a' + toFile) + (toRank+1);
     }
     
 }

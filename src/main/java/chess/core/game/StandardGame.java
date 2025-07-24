@@ -19,29 +19,30 @@ public class StandardGame extends Game
         // Create the board for standard chess
         Piece[][] board = new Piece[8][8];
 
-        for (int i = 0; i < 8; i++) // pawns
+        for (int file = 0; file < 8; file++) // pawns
         {
-            board[1][i] = new Pawn(Colour.WHITE);
-            board[6][i] = new Pawn(Colour.BLACK);
+        board[file][1] = new Pawn(Colour.WHITE);
+        board[file][6] = new Pawn(Colour.BLACK);
         }
 
         // not pawns
         board[0][0] = new Rook(Colour.WHITE);
-        board[0][1] = new Horse(Colour.WHITE);
-        board[0][2] = new Bishop(Colour.WHITE);
-        board[0][3] = new Queen(Colour.WHITE);
-        board[0][4] = new King(Colour.WHITE);
-        board[0][5] = new Bishop(Colour.WHITE);
-        board[0][6] = new Horse(Colour.WHITE);
-        board[0][7] = new Rook(Colour.WHITE);
+        board[1][0] = new Horse(Colour.WHITE);
+        board[2][0] = new Bishop(Colour.WHITE);
+        board[3][0] = new Queen(Colour.WHITE);
+        board[4][0] = new King(Colour.WHITE);
+        board[5][0] = new Bishop(Colour.WHITE);
+        board[6][0] = new Horse(Colour.WHITE);
+        board[7][0] = new Rook(Colour.WHITE);
         
-        board[7][0] = new Rook(Colour.BLACK);
-        board[7][1] = new Horse(Colour.BLACK);
-        board[7][2] = new Bishop(Colour.BLACK);
-        board[7][3] = new Queen(Colour.BLACK);
-        board[7][4] = new King(Colour.BLACK);
-        board[7][5] = new Bishop(Colour.BLACK);
-        board[7][6] = new Horse(Colour.BLACK);
+        // Black back row (rank 8, now index 7)
+        board[0][7] = new Rook(Colour.BLACK);
+        board[1][7] = new Horse(Colour.BLACK);
+        board[2][7] = new Bishop(Colour.BLACK);
+        board[3][7] = new Queen(Colour.BLACK);
+        board[4][7] = new King(Colour.BLACK);
+        board[5][7] = new Bishop(Colour.BLACK);
+        board[6][7] = new Horse(Colour.BLACK);
         board[7][7] = new Rook(Colour.BLACK);
 
         // Set the starting position

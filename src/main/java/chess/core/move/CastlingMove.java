@@ -10,6 +10,6 @@ public class CastlingMove extends Move
     
     public boolean isKingSide()
     {
-        return fromRank < toRank;
+        return fromFile < toFile;
     }
 }

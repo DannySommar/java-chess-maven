@@ -20,7 +20,7 @@ public class King extends Piece
 
     public String toString()
     {
-        return getColour() == Colour.WHITE ? "♔" : "♚";
+        return getColour() == Colour.WHITE ? "w_K" : "b_K";
     }
 
 
@@ -57,20 +57,20 @@ public class King extends Piece
                 // not yet suited for chess960
                 System.out.println("king ma be able to castle kingside");
                 
-                if (position.isSafePath(file, rank, file, position.getKingsideRookFile()))
+                if (position.isSafePath(file, rank, position.getKingsideRookFile(), rank))
                 {
                     System.out.println("path to Kingside rook is clear and safe");
-                    validMoves.add(new CastlingMove(file, rank, file, position.getKingsideRookFile()));
+                    validMoves.add(new CastlingMove(file, rank, position.getKingsideRookFile(), rank));
                 }
             }
             if (position.canCastleQueenSide(getColour()))
             {
                 System.out.println("king may be able to castle QueeenSide");
                 
-                if (position.isSafePath(file, rank, file, position.getQueensideRookFile()))
+                if (position.isSafePath(file, rank, position.getQueensideRookFile(), rank))
                 {
                     System.out.println("path to Queenside rook is clear and safe");
-                    validMoves.add(new CastlingMove(file, rank, file, position.getQueensideRookFile()));
+                    validMoves.add(new CastlingMove(file, rank, position.getQueensideRookFile(), rank));
                 }
             }
         }

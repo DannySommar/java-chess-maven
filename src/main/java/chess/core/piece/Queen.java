@@ -19,7 +19,7 @@ public class Queen extends Piece
 
     public String toString()
     {
-        return getColour() == Colour.WHITE ? "♕" : "♛";
+        return getColour() == Colour.WHITE ? "w_Q" : "b_Q";
     }
 
 
