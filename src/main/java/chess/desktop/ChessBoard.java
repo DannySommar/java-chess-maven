@@ -8,10 +8,16 @@ import chess.core.game.Game;
 import chess.core.move.Move;
 import chess.core.move.PromotionMove;
 import chess.core.piece.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -25,10 +31,16 @@ public class ChessBoard extends GridPane {
     private Integer selectedFile = null;
     private Integer selectedRank = null;
 
+    private final ToggleGroup flipRadios = new ToggleGroup();
+    private final RadioButton flipEachTurn = new RadioButton("Flip each turn");
+    private final RadioButton noFlip = new RadioButton("No flip");
+    private boolean shouldFlip = true;
+
     public ChessBoard(Game game)
     {
         this.game = game;
         initializeBoard();
+        setupFlipControls();
         updatePieces();
     }
 
@@ -59,6 +71,9 @@ public class ChessBoard extends GridPane {
 
     private void handleSquareClick(int file, int rank)
     {
+        boolean flip = shouldFlip && game.getCurrentPosition().getTurn() == Colour.WHITE;
+        rank = flip ? 7 - rank : rank;
+
         System.out.println("clicked on file: " + file + " , rank: " + rank);
         System.out.println("square " + (char)('a' + file) + (rank + 1));
         clearSelections();
@@ -147,12 +162,15 @@ public class ChessBoard extends GridPane {
     void updatePieces()
     {
         Position current = game.getCurrentPosition();
+        boolean flip = shouldFlip && current.getTurn() == Colour.WHITE;
         
         for (int rank = 0; rank < 8; rank++)
         {
             for (int file = 0; file < 8; file++)
             {
-                Piece piece = current.getPiece(file, rank);
+                int displayRank = flip ? 7 - rank : rank;
+
+                Piece piece = current.getPiece(file, displayRank);
                 squares[file][rank].setPiece(piece != null ? new PieceRenderer(piece) : null);
             }
         }
@@ -160,6 +178,9 @@ public class ChessBoard extends GridPane {
 
     private void highlightSelection(int file, int rank)
     {
+        boolean flip = shouldFlip && game.getCurrentPosition().getTurn() == Colour.WHITE;
+        rank = flip ? 7 - rank : rank;
+
         ChessSquare pane = squares[file][rank];
         Rectangle highlight = new Rectangle(SQUARE_SIZE, SQUARE_SIZE, Color.YELLOW);
         highlight.setOpacity(0.5);
@@ -178,30 +199,24 @@ public class ChessBoard extends GridPane {
         }
     }
 
-    //[[maybe_unused]] Generated stuff to print out info about StackPanes to help debuging
-    private void printStackPaneChildren(StackPane pane, int file, int rank) {
-        System.out.printf("\nStackPane at %c%d (file=%d, rank=%d):%n", 
-            (char)('a' + file), rank + 1, file, rank);
-        
-        System.out.println("  StackPane bounds: " + pane.getBoundsInLocal());
-        System.out.println("  Children count: " + pane.getChildren().size());
-        
-        for (Node child : pane.getChildren()) {
-            System.out.println("  └─ " + child.getClass().getSimpleName() + ":");
-            System.out.println("      Bounds: " + child.getBoundsInParent());
-            System.out.println("      Visible: " + child.isVisible());
-            System.out.println("      Managed: " + child.isManaged());
-            
-            if (child instanceof ImageView) {
-                Image img = ((ImageView)child).getImage();
-                System.out.println("      Image: " + (img != null ? 
-                    img.getWidth() + "x" + img.getHeight() + 
-                    (img.isError() ? " [ERROR]" : "") : "null"));
-            }
-            else if (child instanceof Shape) {
-                System.out.println("      Fill: " + ((Shape)child).getFill());
-            }
-        }
+    private void setupFlipControls()
+    {
+        HBox controls = new HBox(20);
+        controls.setAlignment(Pos.CENTER);
+
+        flipEachTurn.setToggleGroup(flipRadios);
+        noFlip.setToggleGroup(flipRadios);
+        flipEachTurn.setSelected(true);
+
+        flipRadios.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
+            shouldFlip = (newVal == flipEachTurn);
+            updatePieces();
+        });
+
+        controls.getChildren().addAll(new Label("Board Perspective:"), flipEachTurn, noFlip);
+
+        // add it so at the bottom and spans nicely
+        add(controls, 0, 8, 8, 1);
     }
 
 }
