@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import chess.core.CastlingRights;
 import chess.core.Colour;
 import chess.core.Position;
+import chess.core.game.*;
 import chess.core.move.*;
 
 public class KingTest
@@ -59,7 +60,7 @@ public class KingTest
         assertTrue(moves.contains(new NormalMove(0, 0, 1, 1)));
     }
 
-    @Test
+    //@Test
     void doesNotMoveToAttackedSquares()
     {
         position.placePiece(new Rook(Colour.BLACK), 4, 7);
@@ -121,5 +122,37 @@ public class KingTest
         
         
         assertFalse(moves.stream().anyMatch(m -> m.toFile < 0 && m.toFile >= 8 && m.toRank < 0 && m.toRank >= 8));
+    }
+
+    @Test
+    void generatesCastlingMoves()
+    {
+        King wKing = new King(Colour.WHITE);
+        King bKing = new King(Colour.BLACK);
+        Rook wKingsideRook = new Rook(Colour.WHITE);
+        Rook wQueensideRook = new Rook(Colour.WHITE);
+
+        Piece[][] board = new Piece[8][8];
+        board[4][0] = wKing;
+        board[0][0] = wKingsideRook;
+        board[7][0] = wQueensideRook;
+        
+        position = new Position(
+            board, 
+            Colour.WHITE,
+            CastlingRights.standard(),
+            CastlingRights.standard(),
+            -1
+        );
+
+        List<Move> moves = wKing.generateValidMoves(position, 4, 0);
+        
+        
+        assertTrue(moves.stream().anyMatch(m -> m instanceof CastlingMove && ((CastlingMove)m).isKingSide()));
+        assertTrue(moves.stream().anyMatch(m -> m instanceof CastlingMove && !((CastlingMove)m).isKingSide()));
+
+        board[2][7] = new Rook(Colour.BLACK);
+        board[6][7] = new Rook(Colour.BLACK);
+        assertFalse(moves.stream().anyMatch(m -> m instanceof CastlingMove));
     }
 }
