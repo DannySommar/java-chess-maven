@@ -98,8 +98,12 @@ public class ChessBoard extends GridPane {
                 List<Move> validMoves = clickedPiece.generateValidMoves(position, file, rank);
                 for (Move move : validMoves)
                 {
-                    System.out.println(move.toString());
-                    highlightSelection(move.toFile, move.toRank);
+                    Move legalMove = position.returnLegalMoveOrNull(move);
+                    if (legalMove != null)
+                    {
+                        System.out.println(legalMove.toString());
+                        highlightSelection(move.toFile, move.toRank);
+                    }
                 }
             }
 
