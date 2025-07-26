@@ -116,8 +116,19 @@ public class ChessBoard extends GridPane {
             System.out.println("Past piece: " + pastPiece.toString());
 
             Move attemptedMove = new Move(selectedFile, selectedRank, file, rank);
-            if (pastPiece instanceof Pawn && (rank == 7 || rank == 0))
+            if (pastPiece instanceof Pawn && (rank == ((Pawn)pastPiece).getPromotionRank())) // check if possible promotion
             {
+                // List<Move> validMoves = pastPiece.generateValidMoves(position, file, rank);
+                // for (Move move : validMoves)
+                // {
+                //     if (attemptedMove.matches(move))
+                //     {
+                //         System.out.println("move is a promotion");
+                //         attemptedMove = handlePromotion(attemptedMove);
+                //         break;
+                //     }
+                // }
+
                 System.out.println("move is a promotion");
                 attemptedMove = handlePromotion(attemptedMove);
             }

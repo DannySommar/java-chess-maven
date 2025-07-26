@@ -106,4 +106,14 @@ public class Pawn extends Piece
         Pawn copy = new Pawn(this.getColour());
         return copy;
     }
+
+    public int getPromotionRank()
+    {
+        return getColour() == Colour.BLACK ? 0 : 7;
+    }
+
+    public int forwardDirection()
+    {
+        return getColour() == Colour.BLACK ? -1 : 1;
+    }
 }
