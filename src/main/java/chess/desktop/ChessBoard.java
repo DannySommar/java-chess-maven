@@ -225,6 +225,7 @@ public class ChessBoard extends GridPane {
 
         flipRadios.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
             shouldFlip = (newVal == flipEachTurn);
+            System.out.println(shouldFlip);
             updatePieces();
         });
 

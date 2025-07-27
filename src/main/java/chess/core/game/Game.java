@@ -73,7 +73,7 @@ public abstract class Game
 
     public Colour getTurn()
     {
-        return cachedCurrentPosition.getTurn();
+        return getCurrentPosition().getTurn();
     }
 
     public void addMove(Move move) throws InvalidMoveException
