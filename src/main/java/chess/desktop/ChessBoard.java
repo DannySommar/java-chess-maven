@@ -31,10 +31,9 @@ public class ChessBoard extends GridPane {
     private Integer selectedFile = null;
     private Integer selectedRank = null;
 
-    private final ToggleGroup flipRadios = new ToggleGroup();
-    private final RadioButton flipEachTurn = new RadioButton("Flip each turn");
-    private final RadioButton noFlip = new RadioButton("No flip");
+    
     private boolean shouldFlip = true;
+    private Colour colourDisplayPerspective = Colour.WHITE; 
 
     public ChessBoard(Game game)
     {
@@ -71,8 +70,7 @@ public class ChessBoard extends GridPane {
 
     private void handleSquareClick(int file, int rank)
     {
-        boolean flip = shouldFlip && game.getCurrentPosition().getTurn() == Colour.WHITE;
-        rank = flip ? 7 - rank : rank;
+        rank = colourDisplayPerspective == Colour.WHITE ? 7 - rank : rank;
 
         System.out.println("clicked on file: " + file + " , rank: " + rank);
         System.out.println("square " + (char)('a' + file) + (rank + 1));
@@ -139,11 +137,14 @@ public class ChessBoard extends GridPane {
             {
                 game.addMove(attemptedMove);
 
-                updatePieces(); 
-
                 System.out.println("move valid,new board should be:");
                 Position newPosition = game.getCurrentPosition();
                 newPosition.printBoard();
+                if (shouldFlip)
+                    colourDisplayPerspective = colourDisplayPerspective.getOpposite();
+
+                updatePieces(); 
+
             } catch (InvalidMoveException e) {
                 System.out.println("invalid move");
             }
@@ -177,13 +178,12 @@ public class ChessBoard extends GridPane {
     void updatePieces()
     {
         Position current = game.getCurrentPosition();
-        boolean flip = shouldFlip && current.getTurn() == Colour.WHITE;
         
         for (int rank = 0; rank < 8; rank++)
         {
             for (int file = 0; file < 8; file++)
             {
-                int displayRank = flip ? 7 - rank : rank;
+                int displayRank = colourDisplayPerspective == Colour.WHITE ? 7 - rank : rank;
 
                 Piece piece = current.getPiece(file, displayRank);
                 squares[file][rank].setPiece(piece != null ? new PieceRenderer(piece) : null);
@@ -193,8 +193,7 @@ public class ChessBoard extends GridPane {
 
     private void highlightSelection(int file, int rank)
     {
-        boolean flip = shouldFlip && game.getCurrentPosition().getTurn() == Colour.WHITE;
-        rank = flip ? 7 - rank : rank;
+        rank = colourDisplayPerspective == Colour.WHITE ? 7 - rank : rank;
 
         ChessSquare pane = squares[file][rank];
         Rectangle highlight = new Rectangle(SQUARE_SIZE, SQUARE_SIZE, Color.YELLOW);
@@ -219,13 +218,16 @@ public class ChessBoard extends GridPane {
         HBox controls = new HBox(20);
         controls.setAlignment(Pos.CENTER);
 
+        ToggleGroup flipRadios = new ToggleGroup();
+        RadioButton flipEachTurn = new RadioButton("Flip each turn");
+        RadioButton noFlip = new RadioButton("No flip");
+
         flipEachTurn.setToggleGroup(flipRadios);
         noFlip.setToggleGroup(flipRadios);
         flipEachTurn.setSelected(true);
 
         flipRadios.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
             shouldFlip = (newVal == flipEachTurn);
-            System.out.println(shouldFlip);
             updatePieces();
         });
 
