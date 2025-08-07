@@ -3,7 +3,11 @@ package chess.desktop;
 import chess.core.game.Game;
 import chess.core.game.StandardGame;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Main extends Application
@@ -13,11 +17,22 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        ChessBoard chessBoard = new ChessBoard(game); // Custom board UI
+        ChessBoard chessBoard = new ChessBoard(game);
+
+        BorderPane root = new BorderPane();
+
+        StackPane boardPane = new StackPane(chessBoard);
+        boardPane.setPadding(new Insets(100, 100, 100, 100));
+
+        root.setCenter(boardPane);
         
-        Scene scene = new Scene(chessBoard, 800, 800);
+        Scene scene = new Scene(root);
+
+        Image icon = new Image("images/w_knock.png");
         
+        primaryStage.getIcons().add(icon);
         primaryStage.setTitle("JavaFX Chess");
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
