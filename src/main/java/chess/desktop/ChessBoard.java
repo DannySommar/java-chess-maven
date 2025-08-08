@@ -32,14 +32,14 @@ public class ChessBoard extends GridPane {
     private Integer selectedRank = null;
 
     
-    private boolean shouldFlip = true;
-    private Colour colourDisplayPerspective = Colour.WHITE; 
+    public boolean shouldFlip = true;
+    public Colour colourDisplayPerspective = Colour.WHITE; 
 
     public ChessBoard(Game game)
     {
         this.game = game;
         initializeBoard();
-        setupFlipControls();
+        //setupFlipControls();
         updatePieces();
     }
 
@@ -213,28 +213,9 @@ public class ChessBoard extends GridPane {
         }
     }
 
-    private void setupFlipControls()
+    public int getSquareSize()
     {
-        HBox controls = new HBox(20);
-        controls.setAlignment(Pos.CENTER);
-
-        ToggleGroup flipRadios = new ToggleGroup();
-        RadioButton flipEachTurn = new RadioButton("Flip each turn");
-        RadioButton noFlip = new RadioButton("No flip");
-
-        flipEachTurn.setToggleGroup(flipRadios);
-        noFlip.setToggleGroup(flipRadios);
-        flipEachTurn.setSelected(true);
-
-        flipRadios.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
-            shouldFlip = (newVal == flipEachTurn);
-            updatePieces();
-        });
-
-        controls.getChildren().addAll(new Label("Board Perspective:"), flipEachTurn, noFlip);
-
-        // add it so at the bottom and spans nicely
-        add(controls, 0, 8, 8, 1);
+        return SQUARE_SIZE;
     }
 
 }

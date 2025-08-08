@@ -17,14 +17,9 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        ChessBoard chessBoard = new ChessBoard(game);
 
-        BorderPane root = new BorderPane();
+        BoardWithCoordinates root = new BoardWithCoordinates(game);
 
-        StackPane boardPane = new StackPane(chessBoard);
-        boardPane.setPadding(new Insets(100, 100, 100, 100));
-
-        root.setCenter(boardPane);
         
         Scene scene = new Scene(root);
 
