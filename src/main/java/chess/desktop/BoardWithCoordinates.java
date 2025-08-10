@@ -1,5 +1,6 @@
 package chess.desktop;
 
+import chess.core.Colour;
 import chess.core.game.Game;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

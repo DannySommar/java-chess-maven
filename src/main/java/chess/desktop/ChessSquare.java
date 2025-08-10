@@ -12,11 +12,18 @@ public class ChessSquare extends StackPane
     public static final int LAYER_HIGHLIGHT = 2;
     
     private final Node[] layers = new Node[3];
+    private final int squareSize;
     
     public ChessSquare(Color colour, int size)
     {
+        this.squareSize = size;
         layers[LAYER_BACKGROUND] = new Rectangle(size, size, colour);
         getChildren().add(layers[LAYER_BACKGROUND]);
+    }
+
+    public void setColour(Color colour)
+    {
+        setLayer(LAYER_BACKGROUND, new Rectangle(squareSize, squareSize, colour));
     }
     
     public void setPiece(Node piece)

@@ -186,6 +186,8 @@ public class ChessBoard extends GridPane {
                 int displayRank = colourDisplayPerspective == Colour.WHITE ? 7 - rank : rank;
 
                 Piece piece = current.getPiece(file, displayRank);
+                Color squareColor = (file + rank) % 2 == (colourDisplayPerspective == Colour.WHITE ? 0 : 1) ? Color.WHITE : Color.GRAY; // a1 square = black if perspective from white, white if perspective from black
+                squares[file][rank].setColour(squareColor);
                 squares[file][rank].setPiece(piece != null ? new PieceRenderer(piece) : null);
             }
         }
@@ -217,5 +219,5 @@ public class ChessBoard extends GridPane {
     {
         return SQUARE_SIZE;
     }
-
+    
 }
