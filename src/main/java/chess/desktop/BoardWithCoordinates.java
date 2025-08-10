@@ -22,6 +22,11 @@ public class BoardWithCoordinates extends GridPane
         setupFlipControls();
     }
 
+    public void connectChessBoardToThis()
+    {
+        chessBoard.border = this;
+    } 
+
     private void buildCoordinateSystem() {
         
         setGridLinesVisible(false);
@@ -68,6 +73,17 @@ public class BoardWithCoordinates extends GridPane
         label.setBackground(new Background(new BackgroundFill(Color.WHEAT, null, null)));
         
         add(label, col, row);
+    }
+
+    public void updateNumberLabels()
+    {
+        for (int rank = 0; rank < 8; rank++)
+        {
+            int displayRank = chessBoard.colourDisplayPerspective == Colour.WHITE ? 8 - rank :  1+ rank;
+            
+            addCoordinateLabel(0, 1 + rank, String.valueOf(displayRank)); // left border
+            addCoordinateLabel(9, 1 + rank, String.valueOf(displayRank)); // right border
+        }
     }
 
     private void setupFlipControls()

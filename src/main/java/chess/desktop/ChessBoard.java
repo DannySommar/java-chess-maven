@@ -34,6 +34,7 @@ public class ChessBoard extends GridPane {
     
     public boolean shouldFlip = true;
     public Colour colourDisplayPerspective = Colour.WHITE; 
+    public BoardWithCoordinates border = null;
 
     public ChessBoard(Game game)
     {
@@ -143,7 +144,8 @@ public class ChessBoard extends GridPane {
                 if (shouldFlip)
                     colourDisplayPerspective = colourDisplayPerspective.getOpposite();
 
-                updatePieces(); 
+                updatePieces();
+                border.updateNumberLabels();
 
             } catch (InvalidMoveException e) {
                 System.out.println("invalid move");

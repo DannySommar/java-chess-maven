@@ -19,6 +19,7 @@ public class Main extends Application
     {
 
         BoardWithCoordinates root = new BoardWithCoordinates(game);
+        root.connectChessBoardToThis();
 
         
         Scene scene = new Scene(root);
