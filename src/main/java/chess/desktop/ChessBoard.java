@@ -11,9 +11,11 @@ import chess.core.piece.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -144,8 +146,24 @@ public class ChessBoard extends GridPane {
                 if (shouldFlip)
                     colourDisplayPerspective = colourDisplayPerspective.getOpposite();
 
-                updatePieces();
-                border.updateNumberLabels();
+                if (newPosition.isCheckMated())
+                {
+                    if (shouldFlip) {colourDisplayPerspective = colourDisplayPerspective.getOpposite();} // revert board flip for last move
+                    updatePieces();
+                    showAlert("checkmate, " + colourDisplayPerspective + " wins");
+                    
+                }
+                else if (!newPosition.canMakeMove())
+                {
+                    if (shouldFlip) {colourDisplayPerspective = colourDisplayPerspective.getOpposite();}
+                    updatePieces();
+                    showAlert("stalemate");
+                }
+                else{
+                    updatePieces();
+                    border.updateNumberLabels();
+                }
+                
 
             } catch (InvalidMoveException e) {
                 System.out.println("invalid move");
@@ -222,4 +240,13 @@ public class ChessBoard extends GridPane {
         return SQUARE_SIZE;
     }
     
+    private void showAlert(String messege)
+    {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText(null);
+        alert.setContentText(messege);
+
+        alert.showAndWait();
+    }
 }

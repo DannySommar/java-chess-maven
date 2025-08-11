@@ -292,7 +292,7 @@ public class Position
         throw new IllegalStateException("King not found"); 
     }
 
-    public boolean isSquareAttacked(int attackedFile, int attackedRank, Colour playersTurn)
+    public boolean isSquareAttacked(int attackedFile, int attackedRank, Colour playersTurn) // If a squate is attacked by pieces of specific colour
     {
         for (int f = 0; f < 8; f++)
         {
@@ -403,5 +403,37 @@ public class Position
             r += rankStep;
         }
         return true;
+    }
+
+    // stalemate and part of chekmate condition
+    public boolean canMakeMove()
+    {
+        for (int f = 0; f < 8; f++)
+        {
+            for (int r = 0; r < 8; r++)
+            {
+                Piece piece = getPiece(f, r);
+
+                if (piece != null && piece.getColour() == turn)
+                {
+                    List<Move> possibleMoves = piece.generateValidMoves(this, f, r);
+
+                    for (Move move : possibleMoves)
+                    {
+                        if (returnLegalMoveOrNull(move) != null)
+                            return true;
+                    }
+                }
+
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isCheckMated()
+    {
+        Square kingSquare = getKingSquare(turn);
+        return isSquareAttacked(kingSquare.file, kingSquare.rank, turn.getOpposite()) && !canMakeMove();
     }
 }
