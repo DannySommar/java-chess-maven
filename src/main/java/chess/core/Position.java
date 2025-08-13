@@ -431,9 +431,9 @@ public class Position
         return false;
     }
 
-    public boolean isCheckMated()
+    public boolean isKingAttacked()
     {
         Square kingSquare = getKingSquare(turn);
-        return isSquareAttacked(kingSquare.file, kingSquare.rank, turn.getOpposite()) && !canMakeMove();
+        return isSquareAttacked(kingSquare.file, kingSquare.rank, turn.getOpposite());
     }
 }

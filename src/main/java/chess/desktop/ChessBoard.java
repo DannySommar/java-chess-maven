@@ -146,18 +146,15 @@ public class ChessBoard extends GridPane {
                 if (shouldFlip)
                     colourDisplayPerspective = colourDisplayPerspective.getOpposite();
 
-                if (newPosition.isCheckMated())
-                {
-                    if (shouldFlip) {colourDisplayPerspective = colourDisplayPerspective.getOpposite();} // revert board flip for last move
-                    updatePieces();
-                    showAlert("checkmate, " + colourDisplayPerspective + " wins");
-                    
-                }
-                else if (!newPosition.canMakeMove())
+
+                if (game.hasGameEnded())
                 {
                     if (shouldFlip) {colourDisplayPerspective = colourDisplayPerspective.getOpposite();}
                     updatePieces();
-                    showAlert("stalemate");
+                    if (newPosition.isKingAttacked())
+                        showAlert("checkmate, " + colourDisplayPerspective + " wins");
+                    else
+                        showAlert("stalemate");
                 }
                 else{
                     updatePieces();

@@ -19,6 +19,8 @@ public abstract class Game
 
     private int moveCounter; // for 50 move rule
 
+    private Boolean isGameEnd = false;
+
     
     public Game(String p1, String p2, Position startingPosition)
     {
@@ -90,6 +92,9 @@ public abstract class Game
         }
         //System.out.println("position.returnLegalMoveOrNull says move is legal");
 
+        moves.add(newMove);
+        cachedCurrentPosition = position.doMove(newMove);
+
         if (position.getPiece(move.fromFile, move.fromRank) instanceof Pawn)
             moveCounter = 0;
         else
@@ -97,11 +102,20 @@ public abstract class Game
 
         if (moveCounter >= 100)
         {
-            ;//declare draw (i'll do this aafter finishing game logic)
+            isGameEnd = true;
         }
 
-        moves.add(newMove);
-        cachedCurrentPosition = position.doMove(newMove);
+        if (!cachedCurrentPosition.canMakeMove())
+        {
+            isGameEnd = true;
+        }
+
+
+    }
+
+    public Boolean hasGameEnded()
+    {
+        return isGameEnd;
     }
 
 
