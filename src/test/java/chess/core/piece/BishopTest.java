@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -75,7 +76,14 @@ public class BishopTest
     {
         position.placePiece(new King(Colour.WHITE), 0, 0);
         position.placePiece(new Rook(Colour.BLACK), 7, 0);
-        var moves = bishop.generateValidMoves(position, 3, 3);
+        var possibleMoves = bishop.generateValidMoves(position, 3, 3);
+        
+        List<Move> moves = new ArrayList<>();
+        for (Move move : possibleMoves)
+        {
+            if (position.returnLegalMoveOrNull(move) != null)
+                moves.add(move);
+        }
         
         assertFalse(moves.contains(new NormalMove(3, 3, 4, 4)));
     }
