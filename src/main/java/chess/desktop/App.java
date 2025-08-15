@@ -12,25 +12,12 @@ import javafx.stage.Stage;
 
 public class App extends Application
 {
-     private Game game = new StandardGame("White", "Black");
 
     @Override
     public void start(Stage primaryStage)
     {
-
-        BoardWithCoordinates root = new BoardWithCoordinates(game);
-        root.connectChessBoardToThis();
-
-        
-        Scene scene = new Scene(root);
-
-        Image icon = new Image("images/w_knock.png");
-        
-        primaryStage.getIcons().add(icon);
-        primaryStage.setTitle("JavaFX Chess");
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        GameSelection gameSelection = new GameSelection();
+        gameSelection.start(primaryStage);
     }
 
     public static void main(String[] args) {
