@@ -436,4 +436,9 @@ public class Position
         Square kingSquare = getKingSquare(turn);
         return isSquareAttacked(kingSquare.file, kingSquare.rank, turn.getOpposite());
     }
+
+    public boolean isSquareEmpty(int file, int rank)
+    {
+        return board[file][rank] == null;
+    }
 }

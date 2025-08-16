@@ -59,7 +59,7 @@ public class King extends Piece
                 
                 if (position.isSafePath(file, rank, position.getKingsideRookFile(), rank))
                 {
-                    if ((position.getKingsideRookFile() < 5  && position.isSafePath(position.getKingsideRookFile(), rank, 7, rank)) || 
+                    if ((position.getKingsideRookFile() <= 5  && position.isSafePath(position.getKingsideRookFile(), rank, 7, rank)) || 
                         (position.getKingsideRookFile() == 7 && (file <= 5 || (file == 6 && position.isSafePath(file, rank, 4, rank)))) ||
                         (position.getKingsideRookFile() == 6))
                     {
@@ -74,8 +74,14 @@ public class King extends Piece
                 
                 if (position.isSafePath(file, rank, position.getQueensideRookFile(), rank))
                 {
-                    System.out.println("path to Queenside rook is clear and safe");
-                    validMoves.add(new CastlingMove(file, rank, position.getQueensideRookFile(), rank));
+                    if (position.getQueensideRookFile() == 2 ||
+                        (position.getQueensideRookFile() > 2 && position.isClearPath(1, rank, position.getQueensideRookFile(), rank)) ||
+                        (position.getQueensideRookFile() == 1 && (position.isSquareEmpty(2, rank) || position.isSquareEmpty(3, rank))) ||
+                        (position.getQueensideRookFile() == 0 && (file > 3 || position.isClearPath(file, rank, 4, rank))))
+                    {
+                        System.out.println("path to Queenside rook is clear and safe");
+                        validMoves.add(new CastlingMove(file, rank, position.getQueensideRookFile(), rank));
+                    }
                 }
             }
         }
