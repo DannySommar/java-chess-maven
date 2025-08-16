@@ -59,8 +59,13 @@ public class King extends Piece
                 
                 if (position.isSafePath(file, rank, position.getKingsideRookFile(), rank))
                 {
-                    System.out.println("path to Kingside rook is clear and safe");
-                    validMoves.add(new CastlingMove(file, rank, position.getKingsideRookFile(), rank));
+                    if ((position.getKingsideRookFile() < 5  && position.isSafePath(position.getKingsideRookFile(), rank, 7, rank)) || 
+                        (position.getKingsideRookFile() == 7 && (file <= 5 || (file == 6 && position.isSafePath(file, rank, 4, rank)))) ||
+                        (position.getKingsideRookFile() == 6))
+                    {
+                        System.out.println("path to Kingside rook is clear and safe");
+                        validMoves.add(new CastlingMove(file, rank, position.getKingsideRookFile(), rank));
+                    }
                 }
             }
             if (position.canCastleQueenSide(getColour()))
