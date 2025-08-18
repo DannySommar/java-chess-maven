@@ -57,36 +57,47 @@ public class King extends Piece
                 // not yet suited for chess960
                 System.out.println("king ma be able to castle kingside");
                 
-                if (position.isSafePath(file, rank, position.getKingsideRookFile(), rank))
+                if (position.isSafePath(file, rank, 5, rank) && 
+                    isCastlingPathClear(position, file, 5, rank, position.getKingStartFile(), position.getKingsideRookFile()) &&
+                    isCastlingPathClear(position, position.getKingsideRookFile(), 6, rank, position.getKingStartFile(), position.getKingsideRookFile()))
                 {
-                    if ((position.getKingsideRookFile() <= 5  && position.isSafePath(position.getKingsideRookFile(), rank, 7, rank)) || 
-                        (position.getKingsideRookFile() == 7 && (file <= 5 || (file == 6 && position.isSafePath(file, rank, 4, rank)))) ||
-                        (position.getKingsideRookFile() == 6))
-                    {
-                        System.out.println("path to Kingside rook is clear and safe");
-                        validMoves.add(new CastlingMove(file, rank, position.getKingsideRookFile(), rank));
-                    }
+                    System.out.println("path to Kingside rook is clear and safe");
+                    validMoves.add(new CastlingMove(file, rank, position.getKingsideRookFile(), rank));
                 }
             }
             if (position.canCastleQueenSide(getColour()))
             {
                 System.out.println("king may be able to castle QueeenSide");
                 
-                if (position.isSafePath(file, rank, position.getQueensideRookFile(), rank))
+                if (position.isSafePath(file, rank, 3, rank) && 
+                    isCastlingPathClear(position, file, 3, rank, position.getKingStartFile(), position.getQueensideRookFile()) &&
+                    isCastlingPathClear(position, position.getQueensideRookFile(), 2, rank, position.getKingStartFile(), position.getQueensideRookFile()))
                 {
-                    if (position.getQueensideRookFile() == 2 ||
-                        (position.getQueensideRookFile() > 2 && position.isClearPath(1, rank, position.getQueensideRookFile(), rank)) ||
-                        (position.getQueensideRookFile() == 1 && (position.isSquareEmpty(2, rank) || position.isSquareEmpty(3, rank))) ||
-                        (position.getQueensideRookFile() == 0 && (file > 3 || position.isClearPath(file, rank, 4, rank))))
-                    {
-                        System.out.println("path to Queenside rook is clear and safe");
-                        validMoves.add(new CastlingMove(file, rank, position.getQueensideRookFile(), rank));
-                    }
+                    System.out.println("path to Queenside rook is clear and safe");
+                    validMoves.add(new CastlingMove(file, rank, position.getQueensideRookFile(), rank));
                 }
             }
         }
 
         return validMoves;
+    }
+
+    private boolean isCastlingPathClear(Position position, int f1, int f2, int rank, int fRook, int fKing)
+    {
+        int fileStep = Integer.signum(f2 - f1);
+        int f = f1;
+        while (f != f2)
+        {
+            f += fileStep;
+            System.out.println("current file: " + f);
+            // cheecks if all squares in path except the castling pieces are empty
+            if (!position.isSquareEmpty(f, rank) && !(f == fRook || f == fKing))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 

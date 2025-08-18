@@ -397,11 +397,13 @@ public class Position
 
         while (f != toFile || r != toRank)
         {
-            if (getPiece(f, r) != null || isSquareAttacked(f, r, turn.getOpposite()))
+            if (isSquareAttacked(f, r, turn.getOpposite()))
                 return false;
             f += fileStep;
             r += rankStep;
         }
+        if (isSquareAttacked(f, r, turn.getOpposite()))
+            return false;
         return true;
     }
 
