@@ -57,9 +57,9 @@ public class King extends Piece
                 // not yet suited for chess960
                 System.out.println("king ma be able to castle kingside");
                 
-                if (position.isSafePath(file, rank, 5, rank) && 
-                    isCastlingPathClear(position, file, 5, rank, position.getKingStartFile(), position.getKingsideRookFile()) &&
-                    isCastlingPathClear(position, position.getKingsideRookFile(), 6, rank, position.getKingStartFile(), position.getKingsideRookFile()))
+                if (position.isSafePath(file, rank, 6, rank) &&                                                                                     // if none of squares king crosses is attacked
+                    isCastlingPathClear(position, file, 6, rank, position.getKingStartFile(), position.getKingsideRookFile()) &&                        // if no pieces in the way of king
+                    isCastlingPathClear(position, position.getKingsideRookFile(), 5, rank, position.getKingStartFile(), position.getKingsideRookFile()))// if no pieces in the way of rook
                 {
                     System.out.println("path to Kingside rook is clear and safe");
                     validMoves.add(new CastlingMove(file, rank, position.getKingsideRookFile(), rank));
@@ -69,9 +69,9 @@ public class King extends Piece
             {
                 System.out.println("king may be able to castle QueeenSide");
                 
-                if (position.isSafePath(file, rank, 3, rank) && 
-                    isCastlingPathClear(position, file, 3, rank, position.getKingStartFile(), position.getQueensideRookFile()) &&
-                    isCastlingPathClear(position, position.getQueensideRookFile(), 2, rank, position.getKingStartFile(), position.getQueensideRookFile()))
+                if (position.isSafePath(file, rank, 2, rank) && 
+                    isCastlingPathClear(position, file, 2, rank, position.getKingStartFile(), position.getQueensideRookFile()) &&
+                    isCastlingPathClear(position, position.getQueensideRookFile(), 3, rank, position.getKingStartFile(), position.getQueensideRookFile()))
                 {
                     System.out.println("path to Queenside rook is clear and safe");
                     validMoves.add(new CastlingMove(file, rank, position.getQueensideRookFile(), rank));
