@@ -4,7 +4,7 @@
   <groupId>chess</groupId>
   <artifactId>java-chess-maven</artifactId>
   <name>java-chess-maven</name>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <url>http://www.example.com</url>
   <build>
     <plugins>
