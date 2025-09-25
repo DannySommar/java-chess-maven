@@ -9,7 +9,7 @@ A simple chess game built with JavaFX.
 Download the latest release JAR and run:
 
 ```bash
-java -jar javaFX-chess-v1.0.jar
+java -jar *shaded.jar
 ```
 ## Running from sauce
 
